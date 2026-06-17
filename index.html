@@ -194,131 +194,47 @@
 <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
 
 <script>
-const DATA = [
-  {room:"A101",members:["김애식","장정랑","신상숙","최경희","임경순"]},
-  {room:"A102",members:["윤석주","김영복","박중숙","김복순","박연수","이승미"]},
-  {room:"A103",members:["홍원선","서경석","서원모","조규행","이재용","이도재"]},
-  {room:"A104",members:["김성훈","김주안","김유안","김대영","최선경"]},
-  {room:"A105",members:["김태진","김지선","김에스더","김루디아","김다니엘"]},
-  {room:"A106",members:["김해식","서한석","신추식","서승준","송원갑","이원진"]},
-  {room:"A107",members:["강홍석","김동회","정순구","김병만","최연환","윤종섭"]},
-  {room:"A108",members:["최명숙","홍원순","백선례","주윤숙","이희숙","김정아"]},
-  {room:"A109",members:["서금자","오세정","황태순","임성경","박귀순","서경숙"]},
-  {room:"A110",members:["김금자","나현아","장운결","한경애","강옥분","서현배"]},
-  {room:"A111",members:["권경섭","임종만","최선호","우홍렬","박재원","유시영"]},
-  {room:"A112",members:["정호","이옥희","이옥선","이옥자","이동근","인시온"]},
-  {room:"A113",members:["권필소","김명자","박영희","장선자","김인순","장순명"]},
-  {room:"A114",members:["노영자","조명래","서온순","서연숙","노성준","추병옥"]},
-  {room:"A115",members:["최영순","김길례","김정희","전성연","윤용순","유성은"]},
-  {room:"A116",members:["이필재","이동준","이동민","이차숙","이다인","이찬희","이솔희"]},
-  {room:"A117",members:["조임옥","김영희(보영)","신흔숙","김학란","김영란","유영혜"]},
-  {room:"A118",members:["신현덕","박미자","노은희","강신해","노건희","노선희","노건율"]},
-  {room:"A119",members:["유상숙","신정희","유명숙","김민정","황미정","강기양"]},
-  {room:"A120",members:["박명순","김남수","한연미","이덕순","정선희","김경희"]},
-  {room:"A121",members:["이승묵","노홍준","최상두","신현영","이봉열","연창호"]},
-  {room:"A122",members:["박광석","최선애"]},
-  {room:"A201",members:["백승환","손국강","백동열","백종규","백홍규"]},
-  {room:"A202",members:["박현숙","최효영","장윤애","류경미","어수경","이소라"]},
-  {room:"A203",members:["박수진","김재원","김민석","박영록"]},
-  {room:"A204",members:["이대창","구자길","이만석","권재훈","이완성","신상훈"]},
-  {room:"A205",members:["편은희","이정화","이강진","이수빈","이강지온","최월남"]},
-  {room:"A206",members:["이지숙","하수선","노영지","노현지","조미정","이경현"]},
-  {room:"A207",members:["김교홍","김명희","김재철","최영재","이주석","정수옥"]},
-  {room:"A208",members:["이영희","심사라","정정화","심은자","이연례","김혜민"]},
-  {room:"A209",members:["권금자","박은혜","안진주","김상순","서순자","이명희"]},
-  {room:"A210",members:["남정인","정창선","김재형","이영식"]},
-  {room:"A211",members:["정세나","김순옥","석정희","정미자","박미경","정순옥"]},
-  {room:"A212",members:["주순자","이순자","주복순","이수옥","김은미","한신애"]},
-  {room:"A213",members:["전우석","김윤동","심남규","문공식","노경환","정현성"]},
-  {room:"A214",members:["김혜순","김남례","여행선","이용순","이재숙"]},
-  {room:"A215",members:["안향숙","신순덕(전주)","이순례","이순이","김삼자","박연임"]},
-  {room:"A216",members:["태주선","서경준","김영관6","황도영","박재성","신영철"]},
-  {room:"A217",members:["강연식","장덕숙","장점숙","박민경","박정연","박미현"]},
-  {room:"A218",members:["황창의","노지훈","주덕례","지화숙","오미선"]},
-  {room:"A219",members:["손병훈","김진호","김병수","최동신","권기열","이승국"]},
-  {room:"A220",members:["양지완","장기희","김경욱","현재민","김서준","손영익"]},
-  {room:"A221",members:["심윤주","장선희","백정혜","진순남","강이금","강한금"]},
-  {room:"A222",members:["한은영","조은경","이연희","이필순","정서윤","김용호"]},
-  {room:"A223",members:["성연아","김용화","배영미","우제영","박문희","김희진"]},
-  {room:"A224",members:["신순덕(서울)","방정숙","지계숙","오윤하","송정화","황규순"]},
-  {room:"A301",members:["최병하","이보영","최미정","김대은","최진규","윤덕인"]},
-  {room:"A302",members:["이주형","김영선","이아론","이재복"]},
-  {room:"A303",members:["김진희(파주)","이복순","정영순","여수현","서기석"]},
-  {room:"A304",members:["이수연","김향인","김동인","안영자","서찬미","김정화"]},
-  {room:"A305",members:["손순남","김설이","김도정","조아라","문용선","정이안"]},
-  {room:"A306",members:["함지순","서병호","유호영","양성숙","박종호","한윤옥"]},
-  {room:"A307",members:["박철규","김영경","박정심","최재원","최준희","최문희"]},
-  {room:"A308",members:["서창성","김재규","박찬성","변경용","이민재"]},
-  {room:"A309",members:["김성식","이재분","김은지(성식)","박인규","박진우"]},
-  {room:"A310",members:["김충만","정혜성","김리한"]},
-  {room:"A311",members:["박금희(대구)","조미향","송계심","홍신아","임영순","신이숙"]},
-  {room:"A312",members:["강선명","최영미","최정임","서순진","박애순"]},
-  {room:"A313",members:["김용현","김동산","유도윤","백지헌","백지훈"]},
-  {room:"A314",members:["권혁재","박보순","권세희","정성율","정우준"]},
-  {room:"A315",members:["권유미","고나윤","고은빛","권유진","배다솔","배다은"]},
-  {room:"A316",members:["도은혜","안시현","안시호","강지민","최선영","이진실"]},
-  {room:"A317",members:["김은영","백미정","신민정","권신영","남경민"]},
-  {room:"A318",members:["정정훈","김형호","이영복","엄기일","손수영","이한길"]},
-  {room:"A319",members:["장미리","이하은","이하준","이다일"]},
-  {room:"A320",members:["김근태","전지미","김주석","김경미4","오수진"]},
-  {room:"A321",members:["이세훈","지은구","정희원","홍수철","이광재","박왕규"]},
-  {room:"A322",members:["김영민","이상희","이해원","전옥자","서은심","김병곤"]},
-  {room:"A323",members:["곽명근","곽상근","이영자(부천)","권태순","서부순","최은혜"]},
-  {room:"A324",members:["이효용","박풍성","최영수","김준영","장석용"]},
-  {room:"B101",members:["박은주(대전)","류삼곤"]},
-  {room:"B201",members:["이성규","정명숙"]},
-  {room:"B202",members:["정한성","김귀옥"]},
-  {room:"B203",members:["염경선","이재승"]},
-  {room:"B204",members:["김홍윤","김은표","김희다"]},
-  {room:"B205",members:["김영","정무원"]},
-  {room:"B206",members:["이진수","류규정"]},
-  {room:"B207",members:["최대경","최정아"]},
-  {room:"B208",members:["김동주","김은주"]},
-  {room:"B209",members:["김해경","최석흔"]},
-  {room:"B210",members:["최광숙","김동원"]},
-  {room:"B211",members:["노우경","우점덕","강중복"]},
-  {room:"B212",members:["박금희(제주)"]},
-  {room:"B213",members:["한재상","박선경"]},
-  {room:"B214",members:["서승우","박진희"]},
-  {room:"B215",members:["채성민","이민형"]},
-  {room:"B216",members:["노현명","이예찬","이의소"]},
-  {room:"B217",members:["김학형","김혜정","김승기"]},
-  {room:"B218",members:["김경자","이영자(대구)","박영자"]},
-  {room:"B301",members:["황찬호","이상미","황신성"]},
-  {room:"B302",members:["조영래","이어진","조은수"]},
-  {room:"B303",members:["이창용","최영의"]},
-  {room:"B304",members:["이성일","조현숙","이연호","이연준"]},
-  {room:"B305",members:["서예주","이인희","이윤하","이재원"]},
-  {room:"B306",members:["김춘임","김현숙","이숙연","전선희"]},
-  {room:"B307",members:["이종선","김도안","김이도","김이래"]},
-  {room:"B308",members:["송지영","오성진","송광복","김진숙(고흥)"]},
-  {room:"B309",members:["강은숙","정성은","정고은","정순재"]},
-  {room:"B310",members:["이세홍","나영희","이동기"]},
-  {room:"B311",members:["윤좌진","이영은","윤은수"]},
-  {room:"B312",members:["이유리","하시은","하은성"]},
-  {room:"B313",members:["이무원","박인숙","나혜련"]},
-  {room:"B314",members:["김성숙","이숙자","성효린","조영수"]},
-  {room:"B401",members:["고현진","서유빈","유서윤"]},
-  {room:"B402",members:["정은주","김헌일","김소현"]},
-  {room:"B404",members:["박찬해","이미혜"]},
-  {room:"B405",members:["추교욱","김경옥","김경숙"]},
-  {room:"B406",members:["이제환","박지수","이제화"]},
-  {room:"B407",members:["김은지","이현미","채수혁"]},
-  {room:"B408",members:["최미영","채송화","정태인"]},
-  {room:"B409",members:["장지영","최유진"]},
-  {room:"B410",members:["이상효","한수라","이시문"]},
-  {room:"B411",members:["조상운","이영수"]}
-];
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSK6u-pJdAk-mYkxY-323tlsEnm0W9PJlARsIVxnlK7J0besJilKkDFr1SXO2gzSq5xsRjnUZ9z9DFG/pub?gid=158946836&single=true&output=csv";
 
-/* 통계 */
-const totalRooms = DATA.length;
-const totalPeople = DATA.reduce((s, r) => s + r.members.length, 0);
-const aRooms = DATA.filter(r => r.room.startsWith("A")).length;
-const bRooms = DATA.filter(r => r.room.startsWith("B")).length;
-document.getElementById("totalRooms").textContent = totalRooms;
-document.getElementById("totalPeople").textContent = totalPeople;
-document.getElementById("aRooms").textContent = aRooms;
-document.getElementById("bRooms").textContent = bRooms;
+let DATA = [];
+
+function parseCSV(text) {
+  const lines = text.split("\n").map(l => l.replace(/\r$/, ""));
+  const result = [];
+  // 헤더: 방호수(0), 순배정(1), 방특징(2), 인원(3), 성별(4), 一~七(5~11)
+  for (let i = 2; i < lines.length; i++) {
+    const cols = lines[i].split(",");
+    const room = (cols[0] || "").trim();
+    if (!/^[AB]\d{3}$/.test(room)) continue;
+    const members = [];
+    for (let c = 5; c <= 11; c++) {
+      const name = (cols[c] || "").trim();
+      if (name) members.push(name);
+    }
+    if (members.length > 0) result.push({ room, members });
+  }
+  return result;
+}
+
+async function loadData() {
+  try {
+    const res = await fetch(SHEET_CSV_URL);
+    const text = await res.text();
+    DATA = parseCSV(text);
+  } catch (e) {
+    document.getElementById("roomList").innerHTML = '<div class="no-result">데이터를 불러오지 못했습니다. 새로고침 해주세요.</div>';
+    return;
+  }
+  updateStats();
+  render();
+}
+
+function updateStats() {
+  document.getElementById("totalRooms").textContent = DATA.length;
+  document.getElementById("totalPeople").textContent = DATA.reduce((s, r) => s + r.members.length, 0);
+  document.getElementById("aRooms").textContent = DATA.filter(r => r.room.startsWith("A")).length;
+  document.getElementById("bRooms").textContent = DATA.filter(r => r.room.startsWith("B")).length;
+}
 
 let currentFloor = "all";
 
@@ -407,7 +323,7 @@ window.addEventListener("scroll", () => {
   document.getElementById("scrollTopBtn").classList.toggle("show", window.scrollY > 400);
 });
 
-render();
+loadData();
 </script>
 </body>
 </html>
