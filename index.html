@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>2026 속리산 여름집회 객실배정</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+    background: #f0f2f5; color: #333;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .header {
+    background: linear-gradient(135deg, #1a5276, #2e86c1);
+    color: white; padding: 20px 16px 14px; text-align: center;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header h1 { font-size: 1.2rem; margin-bottom: 2px; }
+  .header p { font-size: 0.75rem; opacity: 0.8; }
+
+  /* 통계 바 */
+  .stats-bar {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    background: white; padding: 10px 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: sticky; top: 56px; z-index: 99;
+  }
+  .stat { text-align: center; }
+  .stat .num { font-size: 1.3rem; font-weight: 700; color: #1a5276; }
+  .stat .label { font-size: 0.65rem; color: #888; margin-top: 1px; }
+
+  /* 검색 영역 */
+  .search-area {
+    position: sticky; top: 110px; z-index: 98;
+    background: #f0f2f5; padding: 12px 12px 4px;
+  }
+  .search-row {
+    display: flex; gap: 8px;
+  }
+  .search-area input, .search-area select {
+    padding: 11px 12px; border: 2px solid #ddd; border-radius: 10px;
+    font-size: 16px; outline: none; background: white;
+    transition: border-color 0.2s;
+  }
+  .search-area input:focus, .search-area select:focus { border-color: #2e86c1; }
+  #searchInput { flex: 1; min-width: 0; }
+  #buildingFilter { width: 90px; flex-shrink: 0; }
+  .clear-btn {
+    padding: 11px 14px; background: #e74c3c; color: white; border: none;
+    border-radius: 10px; cursor: pointer; font-size: 0.85rem; flex-shrink: 0;
+    font-weight: 600;
+  }
+  .clear-btn:active { background: #c0392b; transform: scale(0.96); }
+
+  /* 탭 필터 */
+  .tab-bar {
+    display: flex; gap: 6px; padding: 8px 12px 6px;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    padding: 6px 14px; border: 1.5px solid #ccc; border-radius: 20px;
+    background: white; font-size: 0.78rem; white-space: nowrap;
+    cursor: pointer; color: #555; font-weight: 500;
+    transition: all 0.15s;
+  }
+  .tab-btn.active { background: #1a5276; color: white; border-color: #1a5276; }
+  .tab-btn:active { transform: scale(0.95); }
+
+  .result-info {
+    padding: 2px 16px 8px; font-size: 0.78rem; color: #888;
+  }
+
+  /* 카드 리스트 */
+  .container { padding: 0 12px 100px; }
+
+  .room-card {
+    background: white; border-radius: 12px; margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden;
+    transition: all 0.15s;
+  }
+  .room-card.highlight { border-left: 4px solid #e74c3c; }
+
+  .room-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 14px; background: #f8f9fa;
+  }
+  .room-header:active { background: #eef1f5; }
+  .room-num { font-weight: 700; font-size: 1.05rem; }
+  .room-num.building-a { color: #1a5276; }
+  .room-num.building-b { color: #7d3c98; }
+  .room-count {
+    background: #2e86c1; color: white; padding: 3px 10px;
+    border-radius: 12px; font-size: 0.75rem; font-weight: 600;
+  }
+  .room-count.b-room { background: #7d3c98; }
+
+  .room-members {
+    padding: 10px 14px; display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .member-tag {
+    background: #eaf2f8; color: #1a5276; padding: 6px 12px;
+    border-radius: 18px; font-size: 0.82rem; white-space: nowrap;
+  }
+  .member-tag.matched {
+    background: #fdedec; color: #c0392b; font-weight: 700;
+    animation: pulse 0.3s ease;
+  }
+  .member-tag.b-tag { background: #f4ecf7; color: #7d3c98; }
+  .member-tag.b-tag.matched { background: #fdedec; color: #c0392b; }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  .no-result {
+    text-align: center; padding: 60px 20px; color: #aaa; font-size: 1rem;
+  }
+
+  /* 맨 위로 버튼 */
+  .scroll-top {
+    position: fixed; bottom: 24px; right: 16px;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: #1a5276; color: white; border: none;
+    font-size: 1.4rem; cursor: pointer;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+    display: none; z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .scroll-top:active { transform: scale(0.9); }
+  .scroll-top.show { display: flex; }
+
+  /* 데스크탑 */
+  @media (min-width: 768px) {
+    .header { padding: 24px 32px 18px; }
+    .header h1 { font-size: 1.5rem; }
+    .stats-bar { max-width: 700px; margin: 0 auto; padding: 14px; }
+    .stat .num { font-size: 1.6rem; }
+    .stat .label { font-size: 0.8rem; }
+    .search-area { max-width: 700px; margin: 0 auto; padding: 16px 0 4px; }
+    .tab-bar { max-width: 700px; margin: 0 auto; }
+    .result-info { max-width: 700px; margin: 0 auto; }
+    .container { max-width: 700px; margin: 0 auto; }
+    .room-header { padding: 14px 18px; }
+    .room-members { padding: 12px 18px; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>2026 속리산 전국 여름집회</h1>
+  <p>객실 배정 현황 대시보드</p>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><div class="num" id="totalRooms">0</div><div class="label">총 객실</div></div>
+  <div class="stat"><div class="num" id="totalPeople">0</div><div class="label">총 인원</div></div>
+  <div class="stat"><div class="num" id="aRooms">0</div><div class="label">A동</div></div>
+  <div class="stat"><div class="num" id="bRooms">0</div><div class="label">B동</div></div>
+  <div class="stat"><div class="num" id="filteredCount">0</div><div class="label">검색결과</div></div>
+</div>
+
+<div class="search-area">
+  <div class="search-row">
+    <input type="text" id="searchInput" placeholder="이름 또는 객실번호 검색" enterkeyhint="search">
+    <select id="buildingFilter">
+      <option value="all">전체</option>
+      <option value="A">A동</option>
+      <option value="B">B동</option>
+    </select>
+    <button class="clear-btn" onclick="clearSearch()">초기화</button>
+  </div>
+</div>
+
+<div class="tab-bar" id="tabBar">
+  <button class="tab-btn active" data-floor="all">전체</button>
+  <button class="tab-btn" data-floor="1">1층</button>
+  <button class="tab-btn" data-floor="2">2층</button>
+  <button class="tab-btn" data-floor="3">3층</button>
+  <button class="tab-btn" data-floor="4">4층</button>
+</div>
+
+<div class="result-info" id="resultInfo"></div>
+<div class="container" id="roomList"></div>
+
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
+<script>
+const DATA = [
+  {room:"A101",members:["김애식","장정랑","신상숙","최경희","임경순"]},
+  {room:"A102",members:["윤석주","김영복","박중숙","김복순","박연수","이승미"]},
+  {room:"A103",members:["홍원선","서경석","서원모","조규행","이재용","이도재"]},
+  {room:"A104",members:["김성훈","김주안","김유안","김대영","최선경"]},
+  {room:"A105",members:["김태진","김지선","김에스더","김루디아","김다니엘"]},
+  {room:"A106",members:["김해식","서한석","신추식","서승준","송원갑","이원진"]},
+  {room:"A107",members:["강홍석","김동회","정순구","김병만","최연환","윤종섭"]},
+  {room:"A108",members:["최명숙","홍원순","백선례","주윤숙","이희숙","김정아"]},
+  {room:"A109",members:["서금자","오세정","황태순","임성경","박귀순","서경숙"]},
+  {room:"A110",members:["김금자","나현아","장운결","한경애","강옥분","서현배"]},
+  {room:"A111",members:["권경섭","임종만","최선호","우홍렬","박재원","유시영"]},
+  {room:"A112",members:["정호","이옥희","이옥선","이옥자","이동근","인시온"]},
+  {room:"A113",members:["권필소","김명자","박영희","장선자","김인순","장순명"]},
+  {room:"A114",members:["노영자","조명래","서온순","서연숙","노성준","추병옥"]},
+  {room:"A115",members:["최영순","김길례","김정희","전성연","윤용순","유성은"]},
+  {room:"A116",members:["이필재","이동준","이동민","이차숙","이다인","이찬희","이솔희"]},
+  {room:"A117",members:["조임옥","김영희(보영)","신흔숙","김학란","김영란","유영혜"]},
+  {room:"A118",members:["신현덕","박미자","노은희","강신해","노건희","노선희","노건율"]},
+  {room:"A119",members:["유상숙","신정희","유명숙","김민정","황미정","강기양"]},
+  {room:"A120",members:["박명순","김남수","한연미","이덕순","정선희","김경희"]},
+  {room:"A121",members:["이승묵","노홍준","최상두","신현영","이봉열","연창호"]},
+  {room:"A122",members:["박광석","최선애"]},
+  {room:"A201",members:["백승환","손국강","백동열","백종규","백홍규"]},
+  {room:"A202",members:["박현숙","최효영","장윤애","류경미","어수경","이소라"]},
+  {room:"A203",members:["박수진","김재원","김민석","박영록"]},
+  {room:"A204",members:["이대창","구자길","이만석","권재훈","이완성","신상훈"]},
+  {room:"A205",members:["편은희","이정화","이강진","이수빈","이강지온","최월남"]},
+  {room:"A206",members:["이지숙","하수선","노영지","노현지","조미정","이경현"]},
+  {room:"A207",members:["김교홍","김명희","김재철","최영재","이주석","정수옥"]},
+  {room:"A208",members:["이영희","심사라","정정화","심은자","이연례","김혜민"]},
+  {room:"A209",members:["권금자","박은혜","안진주","김상순","서순자","이명희"]},
+  {room:"A210",members:["남정인","정창선","김재형","이영식"]},
+  {room:"A211",members:["정세나","김순옥","석정희","정미자","박미경","정순옥"]},
+  {room:"A212",members:["주순자","이순자","주복순","이수옥","김은미","한신애"]},
+  {room:"A213",members:["전우석","김윤동","심남규","문공식","노경환","정현성"]},
+  {room:"A214",members:["김혜순","김남례","여행선","이용순","이재숙"]},
+  {room:"A215",members:["안향숙","신순덕(전주)","이순례","이순이","김삼자","박연임"]},
+  {room:"A216",members:["태주선","서경준","김영관6","황도영","박재성","신영철"]},
+  {room:"A217",members:["강연식","장덕숙","장점숙","박민경","박정연","박미현"]},
+  {room:"A218",members:["황창의","노지훈","주덕례","지화숙","오미선"]},
+  {room:"A219",members:["손병훈","김진호","김병수","최동신","권기열","이승국"]},
+  {room:"A220",members:["양지완","장기희","김경욱","현재민","김서준","손영익"]},
+  {room:"A221",members:["심윤주","장선희","백정혜","진순남","강이금","강한금"]},
+  {room:"A222",members:["한은영","조은경","이연희","이필순","정서윤","김용호"]},
+  {room:"A223",members:["성연아","김용화","배영미","우제영","박문희","김희진"]},
+  {room:"A224",members:["신순덕(서울)","방정숙","지계숙","오윤하","송정화","황규순"]},
+  {room:"A301",members:["최병하","이보영","최미정","김대은","최진규","윤덕인"]},
+  {room:"A302",members:["이주형","김영선","이아론","이재복"]},
+  {room:"A303",members:["김진희(파주)","이복순","정영순","여수현","서기석"]},
+  {room:"A304",members:["이수연","김향인","김동인","안영자","서찬미","김정화"]},
+  {room:"A305",members:["손순남","김설이","김도정","조아라","문용선","정이안"]},
+  {room:"A306",members:["함지순","서병호","유호영","양성숙","박종호","한윤옥"]},
+  {room:"A307",members:["박철규","김영경","박정심","최재원","최준희","최문희"]},
+  {room:"A308",members:["서창성","김재규","박찬성","변경용","이민재"]},
+  {room:"A309",members:["김성식","이재분","김은지(성식)","박인규","박진우"]},
+  {room:"A310",members:["김충만","정혜성","김리한"]},
+  {room:"A311",members:["박금희(대구)","조미향","송계심","홍신아","임영순","신이숙"]},
+  {room:"A312",members:["강선명","최영미","최정임","서순진","박애순"]},
+  {room:"A313",members:["김용현","김동산","유도윤","백지헌","백지훈"]},
+  {room:"A314",members:["권혁재","박보순","권세희","정성율","정우준"]},
+  {room:"A315",members:["권유미","고나윤","고은빛","권유진","배다솔","배다은"]},
+  {room:"A316",members:["도은혜","안시현","안시호","강지민","최선영","이진실"]},
+  {room:"A317",members:["김은영","백미정","신민정","권신영","남경민"]},
+  {room:"A318",members:["정정훈","김형호","이영복","엄기일","손수영","이한길"]},
+  {room:"A319",members:["장미리","이하은","이하준","이다일"]},
+  {room:"A320",members:["김근태","전지미","김주석","김경미4","오수진"]},
+  {room:"A321",members:["이세훈","지은구","정희원","홍수철","이광재","박왕규"]},
+  {room:"A322",members:["김영민","이상희","이해원","전옥자","서은심","김병곤"]},
+  {room:"A323",members:["곽명근","곽상근","이영자(부천)","권태순","서부순","최은혜"]},
+  {room:"A324",members:["이효용","박풍성","최영수","김준영","장석용"]},
+  {room:"B101",members:["박은주(대전)","류삼곤"]},
+  {room:"B201",members:["이성규","정명숙"]},
+  {room:"B202",members:["정한성","김귀옥"]},
+  {room:"B203",members:["염경선","이재승"]},
+  {room:"B204",members:["김홍윤","김은표","김희다"]},
+  {room:"B205",members:["김영","정무원"]},
+  {room:"B206",members:["이진수","류규정"]},
+  {room:"B207",members:["최대경","최정아"]},
+  {room:"B208",members:["김동주","김은주"]},
+  {room:"B209",members:["김해경","최석흔"]},
+  {room:"B210",members:["최광숙","김동원"]},
+  {room:"B211",members:["노우경","우점덕","강중복"]},
+  {room:"B212",members:["박금희(제주)"]},
+  {room:"B213",members:["한재상","박선경"]},
+  {room:"B214",members:["서승우","박진희"]},
+  {room:"B215",members:["채성민","이민형"]},
+  {room:"B216",members:["노현명","이예찬","이의소"]},
+  {room:"B217",members:["김학형","김혜정","김승기"]},
+  {room:"B218",members:["김경자","이영자(대구)","박영자"]},
+  {room:"B301",members:["황찬호","이상미","황신성"]},
+  {room:"B302",members:["조영래","이어진","조은수"]},
+  {room:"B303",members:["이창용","최영의"]},
+  {room:"B304",members:["이성일","조현숙","이연호","이연준"]},
+  {room:"B305",members:["서예주","이인희","이윤하","이재원"]},
+  {room:"B306",members:["김춘임","김현숙","이숙연","전선희"]},
+  {room:"B307",members:["이종선","김도안","김이도","김이래"]},
+  {room:"B308",members:["송지영","오성진","송광복","김진숙(고흥)"]},
+  {room:"B309",members:["강은숙","정성은","정고은","정순재"]},
+  {room:"B310",members:["이세홍","나영희","이동기"]},
+  {room:"B311",members:["윤좌진","이영은","윤은수"]},
+  {room:"B312",members:["이유리","하시은","하은성"]},
+  {room:"B313",members:["이무원","박인숙","나혜련"]},
+  {room:"B314",members:["김성숙","이숙자","성효린","조영수"]},
+  {room:"B401",members:["고현진","서유빈","유서윤"]},
+  {room:"B402",members:["정은주","김헌일","김소현"]},
+  {room:"B404",members:["박찬해","이미혜"]},
+  {room:"B405",members:["추교욱","김경옥","김경숙"]},
+  {room:"B406",members:["이제환","박지수","이제화"]},
+  {room:"B407",members:["김은지","이현미","채수혁"]},
+  {room:"B408",members:["최미영","채송화","정태인"]},
+  {room:"B409",members:["장지영","최유진"]},
+  {room:"B410",members:["이상효","한수라","이시문"]},
+  {room:"B411",members:["조상운","이영수"]}
+];
+
+/* 통계 */
+const totalRooms = DATA.length;
+const totalPeople = DATA.reduce((s, r) => s + r.members.length, 0);
+const aRooms = DATA.filter(r => r.room.startsWith("A")).length;
+const bRooms = DATA.filter(r => r.room.startsWith("B")).length;
+document.getElementById("totalRooms").textContent = totalRooms;
+document.getElementById("totalPeople").textContent = totalPeople;
+document.getElementById("aRooms").textContent = aRooms;
+document.getElementById("bRooms").textContent = bRooms;
+
+let currentFloor = "all";
+
+/* 층 추출: A101 -> "1", B304 -> "3" */
+function getFloor(room) { return room.charAt(1); }
+
+/* 탭 버튼 */
+document.getElementById("tabBar").addEventListener("click", e => {
+  const btn = e.target.closest(".tab-btn");
+  if (!btn) return;
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  currentFloor = btn.dataset.floor;
+  render();
+});
+
+/* 렌더 */
+function render() {
+  const kw = (document.getElementById("searchInput").value || "").trim().toLowerCase();
+  const building = document.getElementById("buildingFilter").value;
+  const list = document.getElementById("roomList");
+  let html = "", count = 0, matchedPeople = 0;
+
+  DATA.forEach(r => {
+    if (building !== "all" && !r.room.startsWith(building)) return;
+    if (currentFloor !== "all" && getFloor(r.room) !== currentFloor) return;
+
+    const roomMatch = kw && r.room.toLowerCase().includes(kw);
+    const memberMatches = kw ? r.members.filter(m => m.toLowerCase().includes(kw)) : [];
+    if (kw && !roomMatch && memberMatches.length === 0) return;
+
+    const isB = r.room.startsWith("B");
+    const highlight = memberMatches.length > 0 ? " highlight" : "";
+
+    html += '<div class="room-card' + highlight + '">';
+    html += '<div class="room-header">';
+    html += '<span class="room-num ' + (isB ? 'building-b' : 'building-a') + '">' + r.room + '</span>';
+    html += '<span class="room-count' + (isB ? ' b-room' : '') + '">' + r.members.length + '명</span>';
+    html += '</div><div class="room-members">';
+    r.members.forEach(m => {
+      const isMatched = kw && m.toLowerCase().includes(kw);
+      if (isMatched) matchedPeople++;
+      let cls = "member-tag";
+      if (isB) cls += " b-tag";
+      if (isMatched) cls += " matched";
+      html += '<span class="' + cls + '">' + m + '</span>';
+    });
+    html += '</div></div>';
+    count++;
+  });
+
+  if (!html) html = '<div class="no-result">검색 결과가 없습니다.</div>';
+  list.innerHTML = html;
+  document.getElementById("filteredCount").textContent = count;
+
+  const info = document.getElementById("resultInfo");
+  if (kw && matchedPeople > 0) {
+    info.textContent = '"' + kw + '" : ' + matchedPeople + '명 / ' + count + '개 객실';
+  } else if (kw) {
+    info.textContent = '"' + kw + '" : ' + count + '개 객실 일치';
+  } else if (building !== "all" || currentFloor !== "all") {
+    const parts = [];
+    if (building !== "all") parts.push(building + "동");
+    if (currentFloor !== "all") parts.push(currentFloor + "층");
+    info.textContent = parts.join(" ") + " 표시 중 (" + count + "개 객실)";
+  } else {
+    info.textContent = "";
+  }
+}
+
+document.getElementById("searchInput").addEventListener("input", render);
+document.getElementById("buildingFilter").addEventListener("change", render);
+
+function clearSearch() {
+  document.getElementById("searchInput").value = "";
+  document.getElementById("buildingFilter").value = "all";
+  currentFloor = "all";
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.querySelector('.tab-btn[data-floor="all"]').classList.add("active");
+  render();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* 맨 위로 버튼 */
+window.addEventListener("scroll", () => {
+  document.getElementById("scrollTopBtn").classList.toggle("show", window.scrollY > 400);
+});
+
+render();
+</script>
+</body>
+</html>
