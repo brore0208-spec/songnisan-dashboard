@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>2026 속리산 여름집회 신청자 명단</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+    background: #f0f2f5; color: #333;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .header {
+    background: linear-gradient(135deg, #1a6b3c, #27ae60);
+    color: white; padding: 20px 16px 14px; text-align: center;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header h1 { font-size: 1.2rem; margin-bottom: 2px; }
+  .header p { font-size: 0.75rem; opacity: 0.8; }
+
+  .stats-bar {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    background: white; padding: 10px 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: sticky; top: 56px; z-index: 99;
+  }
+  .stat { text-align: center; }
+  .stat .num { font-size: 1.3rem; font-weight: 700; color: #1a6b3c; }
+  .stat .label { font-size: 0.65rem; color: #888; margin-top: 1px; }
+
+  .search-area {
+    position: sticky; top: 110px; z-index: 98;
+    background: #f0f2f5; padding: 12px 12px 8px;
+  }
+  .search-row { display: flex; gap: 8px; }
+  .search-area input {
+    flex: 1; padding: 11px 12px; border: 2px solid #ddd; border-radius: 10px;
+    font-size: 16px; outline: none; background: white; transition: border-color 0.2s;
+  }
+  .search-area input:focus { border-color: #27ae60; }
+  .clear-btn {
+    padding: 11px 14px; background: #e74c3c; color: white; border: none;
+    border-radius: 10px; cursor: pointer; font-size: 0.85rem; flex-shrink: 0; font-weight: 600;
+  }
+  .clear-btn:active { background: #c0392b; transform: scale(0.96); }
+
+  .bus-tabs {
+    display: flex; gap: 6px; padding: 8px 12px 6px;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  .bus-tabs::-webkit-scrollbar { display: none; }
+  .bus-tab {
+    padding: 6px 14px; border: 1.5px solid #ccc; border-radius: 20px;
+    background: white; font-size: 0.78rem; white-space: nowrap;
+    cursor: pointer; color: #555; font-weight: 500; transition: all 0.15s;
+  }
+  .bus-tab.active { background: #1a6b3c; color: white; border-color: #1a6b3c; }
+  .bus-tab:active { transform: scale(0.95); }
+
+  .result-info { padding: 2px 16px 8px; font-size: 0.78rem; color: #888; }
+
+  .container { padding: 0 12px 100px; }
+
+  .member-list {
+    display: flex; flex-wrap: wrap; gap: 8px; padding: 0 4px;
+  }
+  .member-chip {
+    background: white; padding: 10px 16px; border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08); font-size: 0.9rem;
+    font-weight: 500; transition: all 0.15s;
+  }
+  .member-chip.matched {
+    background: #fdedec; color: #c0392b; font-weight: 700;
+    box-shadow: 0 1px 6px rgba(231,76,60,0.2);
+  }
+  .member-chip .bus-info {
+    font-size: 0.7rem; color: #888; margin-top: 3px;
+  }
+  .member-chip .bus-info.daegu { color: #2e86c1; }
+  .member-chip .bus-info.seoul { color: #8e44ad; }
+  .member-chip .bus-info.other { color: #d35400; }
+
+  .section-title {
+    padding: 12px 4px 6px; font-size: 0.85rem; font-weight: 700; color: #1a6b3c;
+    border-bottom: 2px solid #1a6b3c; margin-bottom: 10px;
+  }
+
+  .no-result { text-align: center; padding: 60px 20px; color: #aaa; font-size: 1rem; }
+
+  .scroll-top {
+    position: fixed; bottom: 24px; right: 16px;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: #1a6b3c; color: white; border: none;
+    font-size: 1.4rem; cursor: pointer;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+    display: none; z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .scroll-top:active { transform: scale(0.9); }
+  .scroll-top.show { display: flex; }
+
+  .nav-link {
+    display: inline-block; margin-top: 6px; padding: 4px 12px;
+    background: rgba(255,255,255,0.2); border-radius: 12px;
+    color: white; text-decoration: none; font-size: 0.72rem;
+  }
+  .nav-link:hover { background: rgba(255,255,255,0.3); }
+
+  .loading { text-align: center; padding: 60px 20px; color: #aaa; font-size: 1rem; }
+
+  @media (min-width: 768px) {
+    .header { padding: 24px 32px 18px; }
+    .header h1 { font-size: 1.5rem; }
+    .stats-bar { max-width: 700px; margin: 0 auto; padding: 14px; }
+    .stat .num { font-size: 1.6rem; }
+    .stat .label { font-size: 0.8rem; }
+    .search-area { max-width: 700px; margin: 0 auto; padding: 16px 0 4px; }
+    .bus-tabs { max-width: 700px; margin: 0 auto; }
+    .result-info { max-width: 700px; margin: 0 auto; }
+    .container { max-width: 700px; margin: 0 auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>2026 속리산 전국 여름집회</h1>
+  <p>참가 신청자 명단</p>
+  <a class="nav-link" href="index.html">객실 배정 보기</a>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><div class="num" id="totalCount">-</div><div class="label">총 신청자</div></div>
+  <div class="stat"><div class="num" id="daeguBus">-</div><div class="label">대구버스</div></div>
+  <div class="stat"><div class="num" id="seoulBus">-</div><div class="label">서울버스</div></div>
+</div>
+
+<div class="search-area">
+  <div class="search-row">
+    <input type="text" id="searchInput" placeholder="이름 검색" enterkeyhint="search">
+    <button class="clear-btn" onclick="clearSearch()">초기화</button>
+  </div>
+</div>
+
+<div class="bus-tabs" id="busTabs">
+  <button class="bus-tab active" data-filter="all">전체</button>
+  <button class="bus-tab" data-filter="daegu">대구버스</button>
+  <button class="bus-tab" data-filter="seoul">서울버스</button>
+  <button class="bus-tab" data-filter="other">타지역버스</button>
+  <button class="bus-tab" data-filter="none">버스미신청</button>
+</div>
+
+<div class="result-info" id="resultInfo"></div>
+<div class="container" id="memberList">
+  <div class="loading">데이터를 불러오는 중...</div>
+</div>
+
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
+<script>
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSK6u-pJdAk-mYkxY-323tlsEnm0W9PJlARsIVxnlK7J0besJilKkDFr1SXO2gzSq5xsRjnUZ9z9DFG/pub?gid=498861043&single=true&output=csv";
+
+let allMembers = [];
+let daeguSet = new Set();
+let seoulSet = new Set();
+let otherBusData = {};
+let currentFilter = "all";
+
+function parseCSV(text) {
+  const lines = text.split("\n").map(l => l.replace(/\r$/, ""));
+  const members = [];
+  const daegu = new Set();
+  const seoul = new Set();
+  const other = {};
+
+  for (let i = 2; i < lines.length; i++) {
+    const cols = lines[i].split(",");
+    const name = (cols[0] || "").trim();
+    if (name) members.push(name);
+
+    // 대구버스 (col 3,4,5)
+    for (let c = 3; c <= 5; c++) {
+      const n = (cols[c] || "").trim();
+      if (n && !/^\d+명$/.test(n) && n !== "왕복" && n !== "편도(갈때만)" && n !== "편도(올때만)") daegu.add(n);
+    }
+    // 서울버스 (col 6,7,8)
+    for (let c = 6; c <= 8; c++) {
+      const n = (cols[c] || "").trim();
+      if (n && !/^\d+명$/.test(n) && n !== "왕복" && n !== "편도(갈때만)" && n !== "편도(올때만)" && !n.startsWith("http")) seoul.add(n);
+    }
+    // 타지역버스 (col 10: 이름, 11: 지역, 12: 왕복/편도)
+    const otherName = (cols[10] || "").trim();
+    const otherRegion = (cols[11] || "").trim();
+    const otherType = (cols[12] || "").trim();
+    if (otherName && otherName !== "지역" && !/^\d+명$/.test(otherName)) {
+      other[otherName] = (otherRegion ? otherRegion : "") + (otherType ? " " + otherType : "");
+    }
+  }
+
+  return { members, daegu, seoul, other };
+}
+
+async function loadData() {
+  try {
+    const res = await fetch(SHEET_CSV_URL);
+    const text = await res.text();
+    const parsed = parseCSV(text);
+    allMembers = parsed.members;
+    daeguSet = parsed.daegu;
+    seoulSet = parsed.seoul;
+    otherBusData = parsed.other;
+  } catch (e) {
+    document.getElementById("memberList").innerHTML = '<div class="no-result">데이터를 불러오지 못했습니다. 새로고침 해주세요.</div>';
+    return;
+  }
+  updateStats();
+  render();
+}
+
+function updateStats() {
+  document.getElementById("totalCount").textContent = allMembers.length;
+  document.getElementById("daeguBus").textContent = daeguSet.size;
+  document.getElementById("seoulBus").textContent = seoulSet.size;
+}
+
+function getBusInfo(name) {
+  if (daeguSet.has(name)) return { type: "daegu", label: "대구버스" };
+  if (seoulSet.has(name)) return { type: "seoul", label: "서울버스" };
+  if (otherBusData[name]) return { type: "other", label: otherBusData[name] };
+  return null;
+}
+
+function render() {
+  const kw = (document.getElementById("searchInput").value || "").trim().toLowerCase();
+  const list = document.getElementById("memberList");
+  let filtered = allMembers;
+
+  if (currentFilter === "daegu") filtered = allMembers.filter(n => daeguSet.has(n));
+  else if (currentFilter === "seoul") filtered = allMembers.filter(n => seoulSet.has(n));
+  else if (currentFilter === "other") filtered = allMembers.filter(n => otherBusData[n]);
+  else if (currentFilter === "none") filtered = allMembers.filter(n => !daeguSet.has(n) && !seoulSet.has(n) && !otherBusData[n]);
+
+  if (kw) filtered = filtered.filter(n => n.toLowerCase().includes(kw));
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="no-result">검색 결과가 없습니다.</div>';
+    document.getElementById("resultInfo").textContent = "";
+    return;
+  }
+
+  // 가나다순 그룹핑
+  const groups = {};
+  filtered.forEach(name => {
+    const first = name.charAt(0);
+    if (!groups[first]) groups[first] = [];
+    groups[first].push(name);
+  });
+
+  let html = "";
+  const sortedKeys = Object.keys(groups).sort();
+  sortedKeys.forEach(key => {
+    html += '<div class="section-title">' + key + ' (' + groups[key].length + ')</div>';
+    html += '<div class="member-list">';
+    groups[key].forEach(name => {
+      const isMatched = kw && name.toLowerCase().includes(kw);
+      const bus = getBusInfo(name);
+      html += '<div class="member-chip' + (isMatched ? ' matched' : '') + '">';
+      html += name;
+      if (bus) html += '<div class="bus-info ' + bus.type + '">' + bus.label + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+
+  list.innerHTML = html;
+
+  const info = document.getElementById("resultInfo");
+  if (kw) {
+    info.textContent = '"' + kw + '" : ' + filtered.length + '명 검색됨';
+  } else {
+    info.textContent = filtered.length + '명 표시 중';
+  }
+}
+
+document.getElementById("searchInput").addEventListener("input", render);
+
+document.getElementById("busTabs").addEventListener("click", e => {
+  const btn = e.target.closest(".bus-tab");
+  if (!btn) return;
+  document.querySelectorAll(".bus-tab").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  currentFilter = btn.dataset.filter;
+  render();
+});
+
+function clearSearch() {
+  document.getElementById("searchInput").value = "";
+  currentFilter = "all";
+  document.querySelectorAll(".bus-tab").forEach(b => b.classList.remove("active"));
+  document.querySelector('.bus-tab[data-filter="all"]').classList.add("active");
+  render();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+window.addEventListener("scroll", () => {
+  document.getElementById("scrollTopBtn").classList.toggle("show", window.scrollY > 400);
+});
+
+loadData();
+</script>
+</body>
+</html>
