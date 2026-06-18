@@ -88,6 +88,19 @@
     display: inline-block; padding: 2px 8px; border-radius: 8px;
     font-size: 0.7rem; margin-right: 4px; margin-top: 4px;
   }
+
+  .food-img-wrap {
+    width: 100%; max-height: 220px; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    background: #f5f5f5;
+  }
+  .food-img-wrap img {
+    width: 100%; height: 220px; object-fit: cover;
+  }
+  .food-no-img {
+    width: 100%; height: 120px; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #fef3e2, #fde8d0); font-size: 3rem;
+  }
   .tag-green { background: #e8f8f0; color: #27ae60; }
   .tag-blue { background: #eaf2f8; color: #2e86c1; }
   .tag-orange { background: #fef3e2; color: #d35400; }
@@ -394,33 +407,37 @@
     <div class="section-title">추천 맛집</div>
 
     <div class="card">
+      <div class="food-img-wrap"><img src="food/yetgoeul.webp" alt="옛고을 산채정식"></div>
       <div class="card-header"><span class="card-title">옛고을</span><span class="card-badge badge-food">산채정식</span></div>
       <div class="card-body">
-        <div class="detail">법주사로 250 / 평점 4.2</div>
-        <div class="detail">30여 가지 나물 반찬의 푸짐한 산채정식. 등산 전후 든든한 한 상.</div>
-        <span class="tag tag-red">산채정식</span><span class="tag tag-green">푸짐</span>
+        <div class="detail">법주사로 250 / 평점 4.2 / 08:30~20:00</div>
+        <div class="detail">30여 가지 나물 반찬의 푸짐한 산채정식. 산채불고기정식, 자연산버섯전골, 능이버섯해장국도 인기.</div>
+        <span class="tag tag-red">산채정식</span><span class="tag tag-red">버섯전골</span><span class="tag tag-green">푸짐</span>
       </div>
     </div>
 
     <div class="card">
+      <div class="food-img-wrap"><img src="food/baeyoungsuk.webp" alt="배영숙산야초밥상"></div>
       <div class="card-header"><span class="card-title">배영숙산야초밥상</span><span class="card-badge badge-food">비빔밥</span></div>
       <div class="card-body">
-        <div class="detail">평점 4.0 / 법주사 하산 후 들르기 좋은 곳</div>
-        <div class="detail">속리산 산나물과 야초를 활용한 건강식 비빔밥. 건강한 산나물 요리와 대추 보양식.</div>
-        <span class="tag tag-red">야초 비빔밥</span><span class="tag tag-green">건강식</span>
+        <div class="detail">법주사 하산 후 들르기 좋은 곳 / 평점 4.0</div>
+        <div class="detail">속리산 100가지 산야초 발효액으로 만든 건강식. 대추정식, 속리산정식, 소나무정식. 대추 장아찌와 야초 발효효소가 특별.</div>
+        <span class="tag tag-red">야초 비빔밥</span><span class="tag tag-red">대추정식</span><span class="tag tag-green">건강식</span>
       </div>
     </div>
 
     <div class="card">
+      <div class="food-img-wrap"><img src="food/sokritosok.webp" alt="속리토속음식점 산채더덕정식"></div>
       <div class="card-header"><span class="card-title">속리토속음식점</span><span class="card-badge badge-food">토속요리</span></div>
       <div class="card-body">
-        <div class="detail">법주사 초입 산채거리</div>
-        <div class="detail">상다리가 부러질 듯 푸짐한 산채 더덕구이. 파전, 버섯전 등 아이들 반찬도 다양.</div>
-        <span class="tag tag-red">더덕구이</span><span class="tag tag-red">산채</span>
+        <div class="detail">법주사로 261 / 08:00~20:30 (라스트오더 19:30)</div>
+        <div class="detail">상다리가 부러질 듯 푸짐한 산채 더덕구이. 즉석에서 부치는 파전·버섯전, 아이들 반찬도 다양. 입식·좌식 모두 가능, 아기의자 있음.</div>
+        <span class="tag tag-red">더덕구이</span><span class="tag tag-red">산채정식</span><span class="tag tag-green">가족</span>
       </div>
     </div>
 
     <div class="card">
+      <div class="food-img-wrap"><img src="food/ihojeong.webp" alt="이호정 버섯전골"></div>
       <div class="card-header"><span class="card-title">이호정</span><span class="card-badge badge-food">버섯전골</span></div>
       <div class="card-body">
         <div class="detail">법주사로 인근 터줏대감</div>
@@ -430,15 +447,27 @@
     </div>
 
     <div class="card">
-      <div class="card-header"><span class="card-title">영남식당 (대추 한정식)</span><span class="card-badge badge-food">한정식</span></div>
+      <div class="food-img-wrap"><img src="food/yeongnam.webp" alt="영남식당 대추한정식"></div>
+      <div class="card-header"><span class="card-title">영남식당</span><span class="card-badge badge-food">한정식</span></div>
       <div class="card-body">
-        <div class="detail">보은 특산품 대추를 활용한 한정식</div>
-        <div class="detail">보은 대추는 달고 향이 깊어 전국 최고. 대추 불고기는 아이들 입맛에도 딱!</div>
-        <span class="tag tag-red">대추 한정식</span><span class="tag tag-orange">보은 특산</span>
+        <div class="detail">속리산면 법주사로 / 043-543-3924</div>
+        <div class="detail">보은 특산품 대추를 활용한 한정식. 능이한방백숙, 능이해장국도 인기. 보은 대추는 달고 향이 깊어 전국 최고!</div>
+        <span class="tag tag-red">대추 한정식</span><span class="tag tag-red">능이백숙</span><span class="tag tag-orange">보은 특산</span>
       </div>
     </div>
 
     <div class="card">
+      <div class="food-no-img">&#127831;</div>
+      <div class="card-header"><span class="card-title">상판식당</span><span class="card-badge badge-food">토크닭</span></div>
+      <div class="card-body">
+        <div class="detail">속리산면 법주사로 13 (상판리)</div>
+        <div class="detail">속리산 입구의 토크닭 전문점. 닭볶음탕·닭도리탕 등 든든한 한 끼.</div>
+        <span class="tag tag-red">토크닭</span><span class="tag tag-red">닭볶음탕</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="food-no-img">&#127858;</div>
       <div class="card-header"><span class="card-title">화성가든</span><span class="card-badge badge-food">대추</span></div>
       <div class="card-body">
         <div class="detail">보은 읍내 / 대추 특화 한정식</div>
@@ -448,6 +477,7 @@
     </div>
 
     <div class="card">
+      <div class="food-no-img">&#127836;</div>
       <div class="card-header"><span class="card-title">김천식당</span><span class="card-badge badge-food">순대/곱창</span></div>
       <div class="card-body">
         <div class="detail">보은읍 방향 길목</div>
@@ -457,6 +487,7 @@
     </div>
 
     <div class="card">
+      <div class="food-no-img">&#127859;</div>
       <div class="card-header"><span class="card-title">이원식당</span><span class="card-badge badge-food">해장국</span></div>
       <div class="card-body">
         <div class="detail">보은읍 방향 길목</div>
