@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>2026 속리산 여름집회 - 주변 여행 코스 & 맛집</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+    background: #f0f2f5; color: #333;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .header {
+    background: linear-gradient(135deg, #b5651d, #e67e22);
+    color: white; padding: 20px 16px 14px; text-align: center;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header h1 { font-size: 1.2rem; margin-bottom: 2px; }
+  .header p { font-size: 0.75rem; opacity: 0.8; }
+  .nav-links { margin-top: 6px; }
+  .nav-link {
+    display: inline-block; padding: 4px 12px;
+    background: rgba(255,255,255,0.2); border-radius: 12px;
+    color: white; text-decoration: none; font-size: 0.72rem; margin: 0 2px;
+  }
+  .nav-link:hover { background: rgba(255,255,255,0.3); }
+
+  /* 탭 */
+  .tab-bar {
+    display: flex; background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: sticky; top: 56px; z-index: 99;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-item {
+    flex: 1; min-width: 0; padding: 12px 6px; text-align: center;
+    font-size: 0.78rem; font-weight: 600; color: #888;
+    border-bottom: 3px solid transparent; cursor: pointer;
+    white-space: nowrap; transition: all 0.2s;
+  }
+  .tab-item.active { color: #b5651d; border-bottom-color: #b5651d; }
+
+  .container { max-width: 700px; margin: 0 auto; padding: 0 12px 100px; }
+
+  /* 섹션 */
+  .section { display: none; padding-top: 16px; }
+  .section.active { display: block; }
+
+  .section-title {
+    font-size: 1.1rem; font-weight: 700; color: #b5651d;
+    padding: 8px 0; border-bottom: 2px solid #e67e22; margin-bottom: 12px;
+  }
+
+  /* 지도 이미지 */
+  .map-image {
+    width: 100%; border-radius: 12px; margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer;
+  }
+
+  /* 카드 */
+  .card {
+    background: white; border-radius: 12px; margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden;
+  }
+  .card-header {
+    padding: 14px 16px; display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; background: #fafafa;
+  }
+  .card-header:active { background: #f0f0f0; }
+  .card-title { font-weight: 700; font-size: 1rem; }
+  .card-badge {
+    padding: 3px 10px; border-radius: 12px; font-size: 0.72rem; font-weight: 600; color: white;
+  }
+  .badge-course { background: #27ae60; }
+  .badge-food { background: #e74c3c; }
+  .badge-water { background: #2e86c1; }
+  .badge-activity { background: #8e44ad; }
+  .badge-culture { background: #d35400; }
+
+  .card-body { padding: 12px 16px; font-size: 0.88rem; line-height: 1.6; color: #555; }
+  .card-body .detail { margin-bottom: 6px; }
+  .card-body .tag {
+    display: inline-block; padding: 2px 8px; border-radius: 8px;
+    font-size: 0.7rem; margin-right: 4px; margin-top: 4px;
+  }
+  .tag-green { background: #e8f8f0; color: #27ae60; }
+  .tag-blue { background: #eaf2f8; color: #2e86c1; }
+  .tag-orange { background: #fef3e2; color: #d35400; }
+  .tag-red { background: #fdedec; color: #c0392b; }
+  .tag-purple { background: #f4ecf7; color: #8e44ad; }
+
+  .tip-box {
+    background: #fff9e6; border-left: 4px solid #f1c40f; padding: 12px 16px;
+    border-radius: 0 12px 12px 0; margin-bottom: 12px; font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .tip-box strong { color: #d4a017; }
+
+  /* 풀스크린 이미지 오버레이 */
+  .overlay {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9); z-index: 999;
+    align-items: center; justify-content: center; cursor: pointer;
+  }
+  .overlay.show { display: flex; }
+  .overlay img { max-width: 95%; max-height: 95%; object-fit: contain; }
+
+  .scroll-top {
+    position: fixed; bottom: 24px; right: 16px;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: #b5651d; color: white; border: none;
+    font-size: 1.4rem; cursor: pointer;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+    display: none; z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .scroll-top.show { display: flex; }
+
+  @media (min-width: 768px) {
+    .header { padding: 24px 32px 18px; }
+    .header h1 { font-size: 1.5rem; }
+    .tab-bar { max-width: 700px; margin: 0 auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>속리산 주변 여행 코스 & 맛집</h1>
+  <p>2026 전국 여름집회 여행 가이드</p>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">객실 배정</a>
+    <a class="nav-link" href="members.html">신청자 명단</a>
+  </div>
+</div>
+
+<div class="tab-bar" id="tabBar">
+  <div class="tab-item active" data-tab="map">지도</div>
+  <div class="tab-item" data-tab="family">가족코스</div>
+  <div class="tab-item" data-tab="trekking">트래킹</div>
+  <div class="tab-item" data-tab="water">물놀이</div>
+  <div class="tab-item" data-tab="activity">액티비티</div>
+  <div class="tab-item" data-tab="food">맛집</div>
+  <div class="tab-item" data-tab="culture">문화체험</div>
+</div>
+
+<div class="container">
+
+  <!-- 지도 탭 -->
+  <div class="section active" id="sec-map">
+    <div class="section-title">여행 명소 지도</div>
+    <img class="map-image" src="img_travel.png" alt="가족 여행 명소 지도" onclick="showOverlay(this.src)">
+    <div class="section-title">물놀이 지도</div>
+    <img class="map-image" src="img_water.jpg" alt="물놀이 지도" onclick="showOverlay(this.src)">
+    <div class="section-title">등산로 지도</div>
+    <img class="map-image" src="img_hiking.jpg" alt="등산로 지도" onclick="showOverlay(this.src)">
+    <div class="tip-box">
+      <strong>TIP</strong> 지도를 터치하면 크게 볼 수 있습니다.
+    </div>
+  </div>
+
+  <!-- 가족코스 탭 -->
+  <div class="section" id="sec-family">
+    <div class="section-title">아이와 함께하는 가족 코스</div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">코스 1. 액티비티를 좋아하는 아이들!</span>
+        <span class="card-badge badge-activity">액티비티</span>
+      </div>
+      <div class="card-body">
+        <div class="detail"><strong>속리산 테마파크 모노레일</strong> - 귀여운 모노레일을 타고 산속을 오르며, 목탁봉 전망대에서 속리산 절경을 한눈에!</div>
+        <div class="detail"><strong>말티재 전망대</strong> - 열두 구비 구불구불 고갯길을 내려다보는 아찔한 전망대</div>
+        <div class="detail"><strong>김천식당 & 이원식당</strong> - 보은읍 방향 길목. 순대/곱창전골, 맵지 않은 맑은 올갱이 해장국은 아이들 밥 말아 먹이기에 딱!</div>
+        <span class="tag tag-purple">모노레일</span><span class="tag tag-green">전망대</span><span class="tag tag-red">맛집</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">코스 2. 자연 속 가벼운 산책</span>
+        <span class="card-badge badge-course">산책</span>
+      </div>
+      <div class="card-body">
+        <div class="detail"><strong>법주사 & 세조길</strong> - 거대한 금동미륵대불과 문화재 관람 + 흙길과 나무 데크로 정비된 세조길은 유모차도 OK!</div>
+        <div class="detail"><strong>정이품송</strong> - 법주사 가는 길목, 세조의 가마 전설이 있는 600년 소나무. 인증사진 필수!</div>
+        <div class="detail"><strong>속리토속음식점 / 배영숙산야초밥상</strong> - 법주사 초입 산채거리. 건강한 한정식과 파전, 버섯전 등 아이들 반찬도 다양</div>
+        <span class="tag tag-green">세조길</span><span class="tag tag-orange">법주사</span><span class="tag tag-red">산채정식</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">코스 3. 공원 & 숲 체험</span>
+        <span class="card-badge badge-course">공원</span>
+      </div>
+      <div class="card-body">
+        <div class="detail"><strong>솔향공원 (스카이바이크)</strong> - 소나무 숲 위를 자전거로 시원하게! 홍보 전시관과 미로공원도 있어 아이들이 좋아합니다.</div>
+        <div class="detail"><strong>화성가든</strong> - 보은 읍내 대추 특화 한정식. 달달한 대추 불고기는 아이들 입맛에도 딱!</div>
+        <span class="tag tag-green">스카이바이크</span><span class="tag tag-purple">미로공원</span><span class="tag tag-red">대추불고기</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 트래킹 탭 -->
+  <div class="section" id="sec-trekking">
+    <div class="section-title">트래킹 코스</div>
+    <img class="map-image" src="img_hiking.jpg" alt="등산로 지도" onclick="showOverlay(this.src)">
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">세조길 코스</span><span class="card-badge badge-course">초급</span></div>
+      <div class="card-body">
+        <div class="detail">4km / 약 1시간 20분</div>
+        <div class="detail">세조 임금이 거닐던 옛길. 소나무 숲과 계곡이 어우러진 평탄 산책로로 초보자·가족에게 최적.</div>
+        <span class="tag tag-green">가족 추천</span><span class="tag tag-blue">계곡</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">문장대 1코스</span><span class="card-badge" style="background:#e67e22">중급</span></div>
+      <div class="card-body">
+        <div class="detail">3.1km / 약 2시간 30분</div>
+        <div class="detail">법주사 → 세심정 → 문장대(1,054m). 정상 암반에서 속리산 주능선 파노라마 조망.</div>
+        <span class="tag tag-orange">절경</span><span class="tag tag-purple">인기 코스</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">문장대 2코스</span><span class="card-badge" style="background:#e67e22">중급</span></div>
+      <div class="card-body">
+        <div class="detail">9.7km / 약 6시간</div>
+        <div class="detail">문장대까지의 장거리 코스. 다양한 속리산 경치를 즐길 수 있는 본격 등산 코스.</div>
+        <span class="tag tag-orange">장거리</span><span class="tag tag-purple">본격 등산</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">천왕봉 코스</span><span class="card-badge" style="background:#c0392b">고급</span></div>
+      <div class="card-body">
+        <div class="detail">16km / 약 7~8시간</div>
+        <div class="detail">법주사 원점회귀 최장 코스. 1,058m 천왕봉을 비롯 속리산의 모든 절경을 섭렵하는 풀코스.</div>
+        <span class="tag tag-red">전망 최고</span><span class="tag tag-orange">풀코스</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">묘봉이 옛길</span><span class="card-badge badge-course">초급</span></div>
+      <div class="card-body">
+        <div class="detail">4.6km / 약 1시간</div>
+        <div class="detail">완만한 숲길로 가볍게 걷기 좋은 코스.</div>
+        <span class="tag tag-green">힐링</span><span class="tag tag-blue">숲길</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">옥녀봉 코스</span><span class="card-badge" style="background:#e67e22">중급</span></div>
+      <div class="card-body">
+        <div class="detail">7.4km / 약 4시간 30분</div>
+        <div class="detail">속리산의 숨은 비경을 만날 수 있는 코스.</div>
+        <span class="tag tag-orange">비경</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">도명산 코스</span><span class="card-badge" style="background:#e67e22">중급</span></div>
+      <div class="card-body">
+        <div class="detail">8km / 약 4시간 30분</div>
+        <span class="tag tag-orange">중급</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">말티재 자연휴양림 산책</span><span class="card-badge badge-course">초급</span></div>
+      <div class="card-body">
+        <div class="detail">소나무 가득한 말티재 휴양림 내 힐링 산책로. 피톤치드 삼림욕 + 야영도 가능.</div>
+        <span class="tag tag-green">힐링</span><span class="tag tag-blue">삼림욕</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 물놀이 탭 -->
+  <div class="section" id="sec-water">
+    <div class="section-title">물놀이 장소</div>
+    <img class="map-image" src="img_water.jpg" alt="물놀이 지도" onclick="showOverlay(this.src)">
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">만수계곡</span><span class="card-badge badge-water">계곡</span></div>
+      <div class="card-body">
+        <div class="detail">차로 15~20분 / 청정 숲속 계곡, 맑은 물, 시원한 그늘</div>
+        <div class="detail">수정처럼 맑고 차가운 청정계곡. 발 담그기·물놀이 최적.</div>
+        <div class="detail" style="color:#c0392b; font-weight:600">취사 및 야영 절대 금지 (국립공원)</div>
+        <span class="tag tag-blue">청정</span><span class="tag tag-blue">족욕</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">서원계곡</span><span class="card-badge badge-water">계곡</span></div>
+      <div class="card-body">
+        <div class="detail">차로 15~20분 / 캠핑 가능, 넓은 물놀이 공간</div>
+        <div class="detail">취사 및 캠핑 가능. 넓은 공간에서 여유로운 물놀이.</div>
+        <div class="detail">머문 자리 쓰레기 되가져가기</div>
+        <span class="tag tag-blue">캠핑 가능</span><span class="tag tag-green">넓은 공간</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">세조길 계곡</span><span class="card-badge badge-water">계곡</span></div>
+      <div class="card-body">
+        <div class="detail">세심정 일대 / 세조길 산책 중 만나는 시원한 계곡</div>
+        <div class="detail">아이들도 안전하게 물놀이 즐길 수 있는 완만한 수심.</div>
+        <span class="tag tag-green">가족</span><span class="tag tag-blue">트래킹 병행</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">보은군 어린이 물놀이장</span><span class="card-badge badge-water">물놀이장</span></div>
+      <div class="card-body">
+        <div class="detail">차로 20분 / 안전한 시설, 야외 풀장, 무료 운영</div>
+        <div class="detail">보은 뱃들공원 내 가족 친화적 무료 야외 물놀이 시설</div>
+        <div class="detail">수영복 및 수영모 필수 / 휴장: 매주 월요일·우천</div>
+        <div class="detail">휴장 확인 문의: 043-540-3842 (보은군 주민행복과)</div>
+        <span class="tag tag-green">무료</span><span class="tag tag-blue">안전</span><span class="tag tag-green">가족</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">숲체험휴양마을 수영장</span><span class="card-badge badge-water">수영장</span></div>
+      <div class="card-body">
+        <div class="detail">속리산로 596 숲체험휴양마을 내 / 여름 시즌 운영</div>
+        <div class="detail">족욕장·온수스파도 함께 이용 가능.</div>
+        <span class="tag tag-blue">수영장</span><span class="tag tag-purple">스파</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 액티비티 탭 -->
+  <div class="section" id="sec-activity">
+    <div class="section-title">액티비티</div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">속리산 짚라인 (e레포츠)</span><span class="card-badge badge-activity">스릴</span></div>
+      <div class="card-body">
+        <div class="detail">속리산면 속리산로 596 / 8개 코스</div>
+        <div class="detail">속리산 산세를 가르는 짜릿한 짚라인 체험!</div>
+        <div class="detail" style="color:#c0392b; font-weight:600">사전 예약 필수: 043-543-7997</div>
+        <span class="tag tag-purple">짚라인</span><span class="tag tag-red">예약 필수</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">속리산 테마파크 모노레일</span><span class="card-badge badge-activity">가족</span></div>
+      <div class="card-body">
+        <div class="detail">모노레일 타고 즐기는 멋진 속리산 풍경</div>
+        <div class="detail">목탁봉 전망대에서 속리산 절경 한눈에!</div>
+        <span class="tag tag-purple">모노레일</span><span class="tag tag-green">가족 추천</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">ATV·산악바이크</span><span class="card-badge badge-activity">오프로드</span></div>
+      <div class="card-body">
+        <div class="detail">보은 일대 산악 지형을 달리는 ATV 체험</div>
+        <div class="detail">난이도별 코스 운영, 어린이 동반 탑승 가능</div>
+        <span class="tag tag-purple">ATV</span><span class="tag tag-green">가족</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">솔향공원 스카이바이크</span><span class="card-badge badge-activity">자전거</span></div>
+      <div class="card-body">
+        <div class="detail">소나무 숲 위를 자전거로 시원하게 달리기!</div>
+        <div class="detail">소나무 홍보 전시관 + 미로공원도 함께 즐기기</div>
+        <span class="tag tag-green">공원</span><span class="tag tag-purple">스카이바이크</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">별빛 관측·야경</span><span class="card-badge badge-activity">야간</span></div>
+      <div class="card-body">
+        <div class="detail">말티재 일대 / 도심에서 멀리 떨어진 맑은 밤하늘</div>
+        <div class="detail">속리산 말티재에서 즐기는 별자리 관측</div>
+        <span class="tag tag-purple">야간</span><span class="tag tag-blue">낭만</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 맛집 탭 -->
+  <div class="section" id="sec-food">
+    <div class="section-title">추천 맛집</div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">옛고을</span><span class="card-badge badge-food">산채정식</span></div>
+      <div class="card-body">
+        <div class="detail">법주사로 250 / 평점 4.2</div>
+        <div class="detail">30여 가지 나물 반찬의 푸짐한 산채정식. 등산 전후 든든한 한 상.</div>
+        <span class="tag tag-red">산채정식</span><span class="tag tag-green">푸짐</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">배영숙산야초밥상</span><span class="card-badge badge-food">비빔밥</span></div>
+      <div class="card-body">
+        <div class="detail">평점 4.0 / 법주사 하산 후 들르기 좋은 곳</div>
+        <div class="detail">속리산 산나물과 야초를 활용한 건강식 비빔밥. 건강한 산나물 요리와 대추 보양식.</div>
+        <span class="tag tag-red">야초 비빔밥</span><span class="tag tag-green">건강식</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">속리토속음식점</span><span class="card-badge badge-food">토속요리</span></div>
+      <div class="card-body">
+        <div class="detail">법주사 초입 산채거리</div>
+        <div class="detail">상다리가 부러질 듯 푸짐한 산채 더덕구이. 파전, 버섯전 등 아이들 반찬도 다양.</div>
+        <span class="tag tag-red">더덕구이</span><span class="tag tag-red">산채</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">이호정</span><span class="card-badge badge-food">버섯전골</span></div>
+      <div class="card-body">
+        <div class="detail">법주사로 인근 터줏대감</div>
+        <div class="detail">속리산 버섯전골과 산채정식으로 현지인에게 오랫동안 사랑받는 집.</div>
+        <span class="tag tag-red">버섯전골</span><span class="tag tag-orange">현지인 맛집</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">영남식당 (대추 한정식)</span><span class="card-badge badge-food">한정식</span></div>
+      <div class="card-body">
+        <div class="detail">보은 특산품 대추를 활용한 한정식</div>
+        <div class="detail">보은 대추는 달고 향이 깊어 전국 최고. 대추 불고기는 아이들 입맛에도 딱!</div>
+        <span class="tag tag-red">대추 한정식</span><span class="tag tag-orange">보은 특산</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">화성가든</span><span class="card-badge badge-food">대추</span></div>
+      <div class="card-body">
+        <div class="detail">보은 읍내 / 대추 특화 한정식</div>
+        <div class="detail">달달한 대추 불고기가 아이들 입맛에도 잘 맞습니다.</div>
+        <span class="tag tag-red">대추 불고기</span><span class="tag tag-green">가족</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">김천식당</span><span class="card-badge badge-food">순대/곱창</span></div>
+      <div class="card-body">
+        <div class="detail">보은읍 방향 길목</div>
+        <div class="detail">순대, 곱창전골 전문.</div>
+        <span class="tag tag-red">순대</span><span class="tag tag-red">곱창전골</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">이원식당</span><span class="card-badge badge-food">해장국</span></div>
+      <div class="card-body">
+        <div class="detail">보은읍 방향 길목</div>
+        <div class="detail">맵지 않은 맑은 올갱이 해장국. 아이들 밥 말아 먹이기에 아주 좋습니다.</div>
+        <span class="tag tag-red">올갱이 해장국</span><span class="tag tag-green">아이 OK</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 문화체험 탭 -->
+  <div class="section" id="sec-culture">
+    <div class="section-title">문화 체험</div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">법주사</span><span class="card-badge badge-culture">유네스코</span></div>
+      <div class="card-body">
+        <div class="detail">유네스코 세계문화유산 / 평점 4.5</div>
+        <div class="detail">신라 진흥왕 553년 창건. 국보 팔상전(목조탑)·쌍사자석등 등 국보 3점 보유. 한국 최대 사찰 중 하나. 거대한 금동미륵대불이 압권!</div>
+        <div class="detail">입장료: 성인 5,000원 (문장대 코스 함께 이용 가능)</div>
+        <span class="tag tag-orange">국보</span><span class="tag tag-orange">유네스코</span><span class="tag tag-green">교육</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">삼년산성</span><span class="card-badge badge-culture">사적</span></div>
+      <div class="card-body">
+        <div class="detail">사적 제235호 / 평점 4.4</div>
+        <div class="detail">신라 자비왕 때 축성. 148승 1패의 불패 산성. 둘레 약 1.8km 성벽 트레킹도 인기.</div>
+        <span class="tag tag-orange">역사 유적</span><span class="tag tag-green">성벽 산책</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">정이품송</span><span class="card-badge badge-culture">천연기념물</span></div>
+      <div class="card-body">
+        <div class="detail">천연기념물 제103호 / 수령 600년</div>
+        <div class="detail">세조가 가마가 걸리지 않도록 가지를 들어올려 정이품 벼슬을 하사한 전설의 소나무. 인증사진 필수!</div>
+        <span class="tag tag-orange">천연기념물</span><span class="tag tag-purple">스토리텔링</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">템플스테이</span><span class="card-badge badge-culture">체험</span></div>
+      <div class="card-body">
+        <div class="detail">법주사 / 복천암</div>
+        <div class="detail">하룻밤 머물며 공양·예불·명상 체험. 마음의 평화를 찾는 힐링 프로그램.</div>
+        <span class="tag tag-purple">명상</span><span class="tag tag-orange">1박 체험</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 이미지 풀스크린 오버레이 -->
+<div class="overlay" id="overlay" onclick="this.classList.remove('show')">
+  <img id="overlayImg" src="" alt="">
+</div>
+
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
+<script>
+function showOverlay(src) {
+  document.getElementById("overlayImg").src = src;
+  document.getElementById("overlay").classList.add("show");
+}
+
+document.getElementById("tabBar").addEventListener("click", e => {
+  const tab = e.target.closest(".tab-item");
+  if (!tab) return;
+  document.querySelectorAll(".tab-item").forEach(t => t.classList.remove("active"));
+  tab.classList.add("active");
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById("sec-" + tab.dataset.tab).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+window.addEventListener("scroll", () => {
+  document.getElementById("scrollTopBtn").classList.toggle("show", window.scrollY > 400);
+});
+</script>
+</body>
+</html>
