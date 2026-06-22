@@ -1,0 +1,288 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1400" font-family="'Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a8d5a2"/>
+      <stop offset="30%" stop-color="#c8e6c9"/>
+      <stop offset="100%" stop-color="#e8f5e9"/>
+    </linearGradient>
+    <filter id="ds">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+    <filter id="ds2">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- 배경 -->
+  <rect width="1200" height="1400" fill="url(#sky)" rx="16"/>
+
+  <!-- 산 실루엣 (뒤) -->
+  <polygon points="0,180 100,90 200,140 350,50 500,110 650,40 800,100 950,60 1050,120 1200,70 1200,240 0,240" fill="#4caf50" opacity="0.3"/>
+  <polygon points="0,240 80,160 200,200 330,130 480,180 620,120 780,170 920,130 1060,190 1200,150 1200,280 0,280" fill="#388e3c" opacity="0.25"/>
+
+  <!-- 나무 장식 -->
+  <g opacity="0.4">
+    <polygon points="60,225 48,255 72,255" fill="#2e7d32"/><rect x="57" y="255" width="6" height="10" fill="#5d4037"/>
+    <polygon points="160,210 148,240 172,240" fill="#388e3c"/><rect x="157" y="240" width="6" height="10" fill="#5d4037"/>
+    <polygon points="280,230 268,260 292,260" fill="#2e7d32"/><rect x="277" y="260" width="6" height="10" fill="#5d4037"/>
+    <polygon points="920,220 908,250 932,250" fill="#2e7d32"/><rect x="917" y="250" width="6" height="10" fill="#5d4037"/>
+    <polygon points="1040,210 1028,240 1052,240" fill="#388e3c"/><rect x="1037" y="240" width="6" height="10" fill="#5d4037"/>
+    <polygon points="1140,225 1128,255 1152,255" fill="#2e7d32"/><rect x="1137" y="255" width="6" height="10" fill="#5d4037"/>
+    <polygon points="500,240 488,270 512,270" fill="#2e7d32"/><rect x="497" y="270" width="6" height="10" fill="#5d4037"/>
+    <polygon points="700,235 688,265 712,265" fill="#388e3c"/><rect x="697" y="265" width="6" height="10" fill="#5d4037"/>
+  </g>
+
+  <!-- 추가 나무 (지도 영역) -->
+  <g opacity="0.3">
+    <polygon points="350,450 338,480 362,480" fill="#2e7d32"/><rect x="347" y="480" width="6" height="10" fill="#5d4037"/>
+    <polygon points="850,450 838,480 862,480" fill="#2e7d32"/><rect x="847" y="480" width="6" height="10" fill="#5d4037"/>
+    <polygon points="200,600 188,630 212,630" fill="#388e3c"/><rect x="197" y="630" width="6" height="10" fill="#5d4037"/>
+    <polygon points="1000,600 988,630 1012,630" fill="#388e3c"/><rect x="997" y="630" width="6" height="10" fill="#5d4037"/>
+    <polygon points="450,750 438,780 462,780" fill="#2e7d32"/><rect x="447" y="780" width="6" height="10" fill="#5d4037"/>
+    <polygon points="750,750 738,780 762,780" fill="#2e7d32"/><rect x="747" y="780" width="6" height="10" fill="#5d4037"/>
+  </g>
+
+  <!-- ====== 타이틀 ====== -->
+  <rect x="40" y="20" width="1120" height="70" rx="16" fill="#2e7d32" filter="url(#ds)"/>
+  <!-- 발자국 아이콘 -->
+  <text x="80" y="65" fill="#a5d6a7" font-size="30">👣</text>
+  <text x="600" y="50" text-anchor="middle" fill="white" font-size="32" font-weight="800">속리산 포레스트 주변 맨발걷기 추천 지도</text>
+  <text x="600" y="72" text-anchor="middle" fill="#a5d6a7" font-size="14" font-weight="600">검증된 추천 코스 5선</text>
+
+  <!-- ====== 검증된 추천코스 5선 가로 배너 ====== -->
+  <rect x="40" y="105" width="1120" height="40" rx="12" fill="#1b5e20" opacity="0.85" filter="url(#ds2)"/>
+  <text x="600" y="131" text-anchor="middle" fill="white" font-size="18" font-weight="700">검증된 추천 코스 5선  —  속리산 포레스트 기준 차량 이동 후 이용 가능한 대표 맨발걷기 코스</text>
+
+  <!-- ====== 중앙 건물: 속리산 포레스트 ====== -->
+  <g transform="translate(600,590)">
+    <ellipse cx="0" cy="40" rx="80" ry="16" fill="#33691e" opacity="0.12"/>
+    <!-- 건물 -->
+    <rect x="-50" y="-32" width="100" height="55" rx="5" fill="#6d4c41" filter="url(#ds)"/>
+    <polygon points="-62,-32 0,-62 62,-32" fill="#8d6e63"/>
+    <polygon points="-62,-32 0,-62 62,-32" fill="white" opacity="0.08"/>
+    <rect x="-34" y="-18" width="14" height="12" rx="2" fill="#ffe082"/>
+    <rect x="-10" y="-18" width="14" height="12" rx="2" fill="#ffe082"/>
+    <rect x="20" y="-18" width="14" height="12" rx="2" fill="#ffe082"/>
+    <rect x="-6" y="2" width="12" height="21" rx="2" fill="#3e2723"/>
+    <text x="0" y="55" text-anchor="middle" fill="#1b5e20" font-size="16" font-weight="800">속리산 포레스트</text>
+    <text x="0" y="72" text-anchor="middle" fill="#558b2f" font-size="12">(출발지)</text>
+  </g>
+
+  <!-- 차로 시간 표시 -->
+  <text x="470" y="530" fill="#666" font-size="11" transform="rotate(-25,470,530)">차로 약 20분</text>
+  <text x="730" y="480" fill="#666" font-size="11" transform="rotate(15,730,480)">차로 약 15분</text>
+  <text x="420" y="620" fill="#666" font-size="11" transform="rotate(-10,420,620)">차로 약 15분</text>
+  <text x="780" y="640" fill="#666" font-size="11" transform="rotate(10,780,640)">차로 약 25분</text>
+  <text x="600" y="730" fill="#666" font-size="11">차로 약 15분</text>
+
+  <!-- ====== 점선 경로 ====== -->
+  <path d="M545,575 C440,520 340,450 250,400" stroke="#e65100" stroke-width="3" stroke-dasharray="8,5" fill="none" opacity="0.5"/>
+  <path d="M655,565 C760,510 860,440 960,380" stroke="#2e7d32" stroke-width="3" stroke-dasharray="8,5" fill="none" opacity="0.5"/>
+  <path d="M540,600 C430,620 310,650 200,680" stroke="#43a047" stroke-width="3" stroke-dasharray="8,5" fill="none" opacity="0.5"/>
+  <path d="M660,610 C770,640 880,670 990,700" stroke="#66bb6a" stroke-width="3" stroke-dasharray="8,5" fill="none" opacity="0.5"/>
+  <path d="M600,665 C600,710 600,760 600,800" stroke="#81c784" stroke-width="3" stroke-dasharray="8,5" fill="none" opacity="0.5"/>
+
+  <!-- 발자국 점 -->
+  <g opacity="0.35">
+    <circle cx="440" cy="520" r="4" fill="#e65100"/><circle cx="380" cy="480" r="3.5" fill="#e65100"/><circle cx="310" cy="440" r="4" fill="#e65100"/>
+    <circle cx="760" cy="510" r="4" fill="#2e7d32"/><circle cx="830" cy="470" r="3.5" fill="#2e7d32"/><circle cx="900" cy="420" r="4" fill="#2e7d32"/>
+    <circle cx="430" cy="630" r="4" fill="#43a047"/><circle cx="340" cy="655" r="3.5" fill="#43a047"/><circle cx="260" cy="675" r="4" fill="#43a047"/>
+    <circle cx="770" cy="645" r="4" fill="#66bb6a"/><circle cx="860" cy="670" r="3.5" fill="#66bb6a"/><circle cx="940" cy="695" r="4" fill="#66bb6a"/>
+    <circle cx="600" cy="720" r="4" fill="#81c784"/><circle cx="600" cy="760" r="3.5" fill="#81c784"/>
+  </g>
+
+  <!-- ====== 코스 1: 이평소공원 황톳길 (왼쪽 위) ====== -->
+  <g transform="translate(195,310)">
+    <rect x="-170" y="-55" width="340" height="160" rx="14" fill="white" filter="url(#ds)"/>
+    <rect x="-170" y="-55" width="340" height="5" rx="2" fill="#e65100"/>
+    <!-- 번호 + 타이틀 -->
+    <circle cx="-140" cy="-20" r="18" fill="#e65100"/>
+    <text x="-140" y="-14" text-anchor="middle" fill="white" font-size="17" font-weight="800">1</text>
+    <text x="-114" y="-28" fill="#1b5e20" font-size="18" font-weight="800">이평소공원 황톳길</text>
+    <rect x="105" y="-42" width="55" height="24" rx="12" fill="#e65100"/>
+    <text x="132" y="-25" text-anchor="middle" fill="white" font-size="13" font-weight="700">BEST</text>
+    <!-- 스펙 -->
+    <text x="-114" y="-8" fill="#555" font-size="13">250m  /  10~15분  /  전용 맨발걷기 코스</text>
+    <line x1="-155" y1="4" x2="155" y2="4" stroke="#eee" stroke-width="1"/>
+    <!-- 설명 -->
+    <text x="-155" y="24" fill="#444" font-size="12">보은군이 1억7천만원 투입 조성한 전용 황톳길.</text>
+    <text x="-155" y="42" fill="#444" font-size="12">폭 2m 황토 흙길 + 세족장 + 황토체험장 + 퍼걸러 완비</text>
+    <text x="-155" y="60" fill="#444" font-size="12">가장 안전하고 확실한 맨발걷기 장소!</text>
+    <!-- 위치 -->
+    <text x="-155" y="82" fill="#2e86c1" font-size="11">위치: 보은군 보은읍 이평소공원 (차로 약 20분)</text>
+    <!-- 태그 -->
+    <rect x="-155" y="90" width="55" height="18" rx="9" fill="#fff3e0"/>
+    <text x="-128" y="103" text-anchor="middle" fill="#e65100" font-size="9" font-weight="600">전용코스</text>
+    <rect x="-94" y="90" width="48" height="18" rx="9" fill="#e8f5e9"/>
+    <text x="-70" y="103" text-anchor="middle" fill="#2e7d32" font-size="9" font-weight="600">황토길</text>
+    <rect x="-40" y="90" width="48" height="18" rx="9" fill="#e3f2fd"/>
+    <text x="-16" y="103" text-anchor="middle" fill="#1565c0" font-size="9" font-weight="600">세족장</text>
+  </g>
+
+  <!-- ====== 코스 2: 솔향공원 (오른쪽 위) ====== -->
+  <g transform="translate(1005,310)">
+    <rect x="-170" y="-55" width="340" height="150" rx="14" fill="white" filter="url(#ds)"/>
+    <rect x="-170" y="-55" width="340" height="5" rx="2" fill="#2e7d32"/>
+    <circle cx="-140" cy="-20" r="18" fill="#2e7d32"/>
+    <text x="-140" y="-14" text-anchor="middle" fill="white" font-size="17" font-weight="800">2</text>
+    <text x="-114" y="-28" fill="#1b5e20" font-size="18" font-weight="800">솔향공원 소나무 숲길</text>
+    <text x="-114" y="-8" fill="#555" font-size="13">약 1~2km  /  30분~1시간  /  평지</text>
+    <line x1="-155" y1="4" x2="155" y2="4" stroke="#eee" stroke-width="1"/>
+    <text x="-155" y="24" fill="#444" font-size="12">국내 최대급 20만㎡ 소나무 테마공원.</text>
+    <text x="-155" y="42" fill="#444" font-size="12">평지 흙길 산책로 조성 / 미로공원, 전시관 함께</text>
+    <text x="-155" y="60" fill="#444" font-size="12">무료 입장. 맨발걷기에 적합합니다.</text>
+    <text x="-155" y="78" fill="#2e86c1" font-size="11">위치: 보은군 속리산면 만수리 솔향공원</text>
+    <rect x="-155" y="82" width="60" height="18" rx="9" fill="#e8f5e9"/>
+    <text x="-125" y="95" text-anchor="middle" fill="#2e7d32" font-size="9" font-weight="600">소나무숲</text>
+    <rect x="-89" y="82" width="42" height="18" rx="9" fill="#e8f5e9"/>
+    <text x="-68" y="95" text-anchor="middle" fill="#2e7d32" font-size="9" font-weight="600">평지</text>
+    <rect x="-41" y="82" width="42" height="18" rx="9" fill="#e8f5e9"/>
+    <text x="-20" y="95" text-anchor="middle" fill="#2e7d32" font-size="9" font-weight="600">무료</text>
+  </g>
+
+  <!-- ====== 코스 3: 오리숲길 (왼쪽 아래) ====== -->
+  <g transform="translate(165,720)">
+    <rect x="-140" y="-50" width="300" height="155" rx="14" fill="white" filter="url(#ds)"/>
+    <rect x="-140" y="-50" width="300" height="5" rx="2" fill="#43a047"/>
+    <circle cx="-110" cy="-15" r="18" fill="#43a047"/>
+    <text x="-110" y="-9" text-anchor="middle" fill="white" font-size="17" font-weight="800">3</text>
+    <text x="-84" y="-23" fill="#1b5e20" font-size="18" font-weight="800">오리숲길</text>
+    <text x="-4" y="-23" fill="#888" font-size="13">(후반 흙길 구간)</text>
+    <text x="-84" y="-3" fill="#555" font-size="13">후반 흙길 약 1km  /  20분  /  평탄</text>
+    <line x1="-125" y1="9" x2="145" y2="9" stroke="#eee" stroke-width="1"/>
+    <text x="-125" y="29" fill="#444" font-size="12">소나무 숲터널이 아름다운 명품 코스.</text>
+    <text x="-125" y="47" fill="#444" font-size="12">초반~중반은 포장 탐방로이므로</text>
+    <text x="-125" y="65" fill="#444" font-size="12">후반부 흙길 구간에서만 맨발걷기 추천.</text>
+    <text x="-125" y="83" fill="#e65100" font-size="11" font-weight="600">주의: 초반 포장구간에서는 신발 착용 필수</text>
+    <text x="-125" y="98" fill="#2e86c1" font-size="11">위치: 속리산 탐방지원센터 ~ 법주사 일주문</text>
+  </g>
+
+  <!-- ====== 코스 4: 말티재 (오른쪽 아래) ====== -->
+  <g transform="translate(1025,730)">
+    <rect x="-160" y="-50" width="320" height="155" rx="14" fill="white" filter="url(#ds)"/>
+    <rect x="-160" y="-50" width="320" height="5" rx="2" fill="#66bb6a"/>
+    <circle cx="-130" cy="-15" r="18" fill="#66bb6a"/>
+    <text x="-130" y="-9" text-anchor="middle" fill="white" font-size="17" font-weight="800">4</text>
+    <text x="-104" y="-23" fill="#1b5e20" font-size="18" font-weight="800">말티재 자연휴양림 산책로</text>
+    <text x="-104" y="-3" fill="#555" font-size="13">산책로 2.5km  /  약 1시간  /  완만한 숲길</text>
+    <line x1="-145" y1="9" x2="145" y2="9" stroke="#eee" stroke-width="1"/>
+    <text x="-145" y="29" fill="#444" font-size="12">소나무 숲 속 낙엽과 흙이 깔린 산책로.</text>
+    <text x="-145" y="47" fill="#444" font-size="12">피톤치드 삼림욕과 맨발걷기를 동시에!</text>
+    <text x="-145" y="65" fill="#444" font-size="12">도심에서 멀어 공기가 청정하며,</text>
+    <text x="-145" y="83" fill="#444" font-size="12">국민의 숲(미로의 숲, 소통의 숲) 구간도 있습니다.</text>
+    <text x="-145" y="98" fill="#2e86c1" font-size="11">위치: 보은군 장안면 속리산로 256 (043-543-6282)</text>
+  </g>
+
+  <!-- ====== 코스 5: 정이품송~비룡저수지 (아래 중앙) ====== -->
+  <g transform="translate(600,860)">
+    <rect x="-195" y="-50" width="390" height="155" rx="14" fill="white" filter="url(#ds)"/>
+    <rect x="-195" y="-50" width="390" height="5" rx="2" fill="#81c784"/>
+    <circle cx="-165" cy="-15" r="18" fill="#81c784"/>
+    <text x="-165" y="-9" text-anchor="middle" fill="white" font-size="17" font-weight="800">5</text>
+    <text x="-139" y="-23" fill="#1b5e20" font-size="18" font-weight="800">정이품송 ~ 비룡저수지 코스</text>
+    <text x="-139" y="-3" fill="#555" font-size="13">4.6km  /  약 1시간  /  저지대 평탄 흙길</text>
+    <line x1="-180" y1="9" x2="180" y2="9" stroke="#eee" stroke-width="1"/>
+    <text x="-180" y="29" fill="#444" font-size="12">속리산 등산 코스 중 가장 수월한 저지대 수평탐방 코스.</text>
+    <text x="-180" y="47" fill="#444" font-size="12">비룡저수지와 깨끗한 숲, 옛길의 아늑함을 느낄 수 있으며</text>
+    <text x="-180" y="65" fill="#444" font-size="12">흙길이 이어져 맨발걷기에 적합합니다.</text>
+    <text x="-180" y="83" fill="#444" font-size="12">천연기념물 정이품송도 함께 감상하세요.</text>
+    <text x="-180" y="98" fill="#2e86c1" font-size="11">위치: 정이품송 ~ 비룡저수지 구간</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- ====== 코스 한눈에 비교 테이블 (하단) ====== -->
+  <!-- ============================================================ -->
+  <rect x="40" y="1040" width="1120" height="36" rx="12" fill="#2e7d32" filter="url(#ds2)"/>
+  <text x="600" y="1064" text-anchor="middle" fill="white" font-size="18" font-weight="800">코스 한눈에 비교</text>
+
+  <!-- 테이블 배경 -->
+  <rect x="40" y="1080" width="1120" height="220" rx="12" fill="white" filter="url(#ds)"/>
+
+  <!-- 헤더 행 -->
+  <rect x="40" y="1080" width="1120" height="32" rx="12" fill="#e8f5e9"/>
+  <rect x="40" y="1100" width="1120" height="12" fill="#e8f5e9"/>
+  <text x="75" y="1101" fill="#1b5e20" font-size="13" font-weight="700">추천</text>
+  <text x="175" y="1101" fill="#1b5e20" font-size="13" font-weight="700">코스</text>
+  <text x="395" y="1101" fill="#1b5e20" font-size="13" font-weight="700">거리</text>
+  <text x="495" y="1101" fill="#1b5e20" font-size="13" font-weight="700">시간</text>
+  <text x="605" y="1101" fill="#1b5e20" font-size="13" font-weight="700">난이도</text>
+  <text x="760" y="1101" fill="#1b5e20" font-size="13" font-weight="700">주요 특징</text>
+  <text x="1020" y="1101" fill="#1b5e20" font-size="13" font-weight="700">추천 대상</text>
+
+  <!-- 구분선 -->
+  <line x1="55" y1="1112" x2="1145" y2="1112" stroke="#c8e6c9" stroke-width="1"/>
+
+  <!-- 행 1 -->
+  <circle cx="75" cy="1137" r="13" fill="#e65100"/>
+  <text x="75" y="1142" text-anchor="middle" fill="white" font-size="12" font-weight="700">1</text>
+  <text x="130" y="1142" fill="#333" font-size="13" font-weight="600">이평소공원 황톳길</text>
+  <text x="395" y="1142" fill="#555" font-size="13">250m</text>
+  <text x="495" y="1142" fill="#555" font-size="13">10~15분</text>
+  <rect x="590" y="1125" width="42" height="20" rx="10" fill="#e8f5e9"/>
+  <text x="611" y="1140" text-anchor="middle" fill="#2e7d32" font-size="11" font-weight="600">쉬움</text>
+  <text x="680" y="1142" fill="#555" font-size="12">전용 황토길, 세족장 완비</text>
+  <text x="960" y="1142" fill="#555" font-size="12">가족, 어르신, 초보자</text>
+
+  <line x1="55" y1="1155" x2="1145" y2="1155" stroke="#f0f0f0" stroke-width="1"/>
+
+  <!-- 행 2 -->
+  <circle cx="75" cy="1177" r="13" fill="#2e7d32"/>
+  <text x="75" y="1182" text-anchor="middle" fill="white" font-size="12" font-weight="700">2</text>
+  <text x="130" y="1182" fill="#333" font-size="13" font-weight="600">솔향공원 소나무 숲길</text>
+  <text x="395" y="1182" fill="#555" font-size="13">1~2km</text>
+  <text x="495" y="1182" fill="#555" font-size="13">30분~1시간</text>
+  <rect x="590" y="1165" width="42" height="20" rx="10" fill="#e8f5e9"/>
+  <text x="611" y="1180" text-anchor="middle" fill="#2e7d32" font-size="11" font-weight="600">쉬움</text>
+  <text x="680" y="1182" fill="#555" font-size="12">평지 흙길, 무료 입장</text>
+  <text x="960" y="1182" fill="#555" font-size="12">숲속 힐링, 산책</text>
+
+  <line x1="55" y1="1195" x2="1145" y2="1195" stroke="#f0f0f0" stroke-width="1"/>
+
+  <!-- 행 3 -->
+  <circle cx="75" cy="1217" r="13" fill="#43a047"/>
+  <text x="75" y="1222" text-anchor="middle" fill="white" font-size="12" font-weight="700">3</text>
+  <text x="130" y="1222" fill="#333" font-size="13" font-weight="600">오리숲길 (후반 흙길)</text>
+  <text x="395" y="1222" fill="#555" font-size="13">약 1km</text>
+  <text x="495" y="1222" fill="#555" font-size="13">약 20분</text>
+  <rect x="590" y="1205" width="42" height="20" rx="10" fill="#e8f5e9"/>
+  <text x="611" y="1220" text-anchor="middle" fill="#2e7d32" font-size="11" font-weight="600">쉬움</text>
+  <text x="680" y="1222" fill="#555" font-size="12">숲터널 명품코스, 후반만 흙길</text>
+  <text x="960" y="1222" fill="#555" font-size="12">사진, 숲 감상</text>
+
+  <line x1="55" y1="1235" x2="1145" y2="1235" stroke="#f0f0f0" stroke-width="1"/>
+
+  <!-- 행 4 -->
+  <circle cx="75" cy="1257" r="13" fill="#66bb6a"/>
+  <text x="75" y="1262" text-anchor="middle" fill="white" font-size="12" font-weight="700">4</text>
+  <text x="130" y="1262" fill="#333" font-size="13" font-weight="600">말티재 자연휴양림</text>
+  <text x="395" y="1262" fill="#555" font-size="13">2.5km</text>
+  <text x="495" y="1262" fill="#555" font-size="13">약 1시간</text>
+  <rect x="590" y="1245" width="42" height="20" rx="10" fill="#fff3e0"/>
+  <text x="611" y="1260" text-anchor="middle" fill="#e65100" font-size="11" font-weight="600">보통</text>
+  <text x="680" y="1262" fill="#555" font-size="12">피톤치드 숲, 국민의 숲</text>
+  <text x="960" y="1262" fill="#555" font-size="12">삼림욕, 힐링</text>
+
+  <line x1="55" y1="1275" x2="1145" y2="1275" stroke="#f0f0f0" stroke-width="1"/>
+
+  <!-- 행 5 -->
+  <circle cx="75" cy="1292" r="13" fill="#81c784"/>
+  <text x="75" y="1297" text-anchor="middle" fill="white" font-size="12" font-weight="700">5</text>
+  <text x="130" y="1297" fill="#333" font-size="13" font-weight="600">정이품송 ~ 비룡저수지</text>
+  <text x="395" y="1297" fill="#555" font-size="13">4.6km</text>
+  <text x="495" y="1297" fill="#555" font-size="13">약 1시간</text>
+  <rect x="590" y="1280" width="42" height="20" rx="10" fill="#fff3e0"/>
+  <text x="611" y="1295" text-anchor="middle" fill="#e65100" font-size="11" font-weight="600">보통</text>
+  <text x="680" y="1297" fill="#555" font-size="12">평탄 흙길, 저지대 코스</text>
+  <text x="960" y="1297" fill="#555" font-size="12">장거리, 자연 감상</text>
+
+  <!-- ====== 안전 수칙 & 하단 ====== -->
+  <rect x="40" y="1320" width="1120" height="55" rx="12" fill="white" opacity="0.9" filter="url(#ds2)"/>
+  <rect x="40" y="1320" width="1120" height="4" rx="2" fill="#f9a825"/>
+  <text x="70" y="1345" fill="#f57f17" font-size="14" font-weight="800">맨발걷기 안전 수칙</text>
+  <text x="220" y="1345" fill="#555" font-size="12">처음엔 10~15분부터 시작  |  날카로운 돌·나뭇가지 주의  |  신발 꼭 챙기기  |  걷기 후 발 씻고 보습  |  당뇨 등 족부질환 시 의사 상담</text>
+  <text x="70" y="1365" fill="#888" font-size="11">※ 우천 시에는 황토길 및 흙길 상태를 확인 후 이용하세요.  ※ 속리산 포레스트 기준 차량 이동 후 이용 가능한 대표 맨발걷기 코스입니다.</text>
+
+  <!-- 브랜딩 -->
+  <rect x="420" y="1382" width="360" height="14" rx="7" fill="#2e7d32" opacity="0.6"/>
+  <text x="600" y="1393" text-anchor="middle" fill="white" font-size="9" font-weight="600">2026 대구교회 여름집회  |  속리산 포레스트</text>
+</svg>
