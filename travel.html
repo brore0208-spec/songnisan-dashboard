@@ -167,12 +167,14 @@
 
   <!-- 지도 탭 -->
   <div class="section active" id="sec-map">
-    <div class="section-title">물놀이 지도</div>
-    <img class="map-image" src="img_water.jpg" alt="물놀이 지도" onclick="showOverlay(this.src)">
-    <div class="section-title">여행 명소 지도</div>
-    <img class="map-image" src="img_travel.png" alt="가족 여행 명소 지도" onclick="showOverlay(this.src)">
     <div class="section-title">등산로 지도</div>
     <img class="map-image" src="img_hiking.jpg" alt="등산로 지도" onclick="showOverlay(this.src)">
+    <div class="section-title">여행 명소 지도</div>
+    <img class="map-image" src="img_travel.png" alt="가족 여행 명소 지도" onclick="showOverlay(this.src)">
+    <div class="section-title">물놀이 지도</div>
+    <img class="map-image" src="img_water.jpg" alt="물놀이 지도" onclick="showOverlay(this.src)">
+    <div class="section-title">맨발걷기 추천 코스 지도</div>
+    <img class="map-image" src="img_barefoot.svg" alt="맨발걷기 추천 코스 인포그래픽" onclick="showOverlay(this.src)">
     <div class="tip-box">
       <strong>TIP</strong> 지도를 터치하면 크게 볼 수 있습니다.
     </div>
@@ -512,22 +514,25 @@
 
   <!-- 맨발걷기 탭 -->
   <div class="section" id="sec-barefoot">
-    <div class="section-title">속리산 주변 맨발걷기 추천 코스</div>
+    <div class="section-title">속리산 주변 맨발걷기 추천 코스 (검증 완료)</div>
 
     <div class="tip-box">
       <strong>맨발걷기(어싱) 효과</strong><br>
       맨발로 흙길을 걸으면 체내 활성산소 제거, 혈액순환 개선, 스트레스 해소, 수면 질 향상에 도움이 됩니다. 속리산 주변의 소나무 숲 흙길은 피톤치드까지 더해져 최고의 맨발걷기 환경입니다.
     </div>
 
+    <div class="tip-box" style="background:#fdedec;border-left-color:#e74c3c;">
+      <strong style="color:#c0392b;">검증 결과 안내</strong><br>
+      세조길은 대부분 야자매트+데크길로 조성되어 맨발걷기(어싱)에 부적합하여 제외했습니다. 둘레길 달천 들녘길(18km)도 장거리·비전용 코스로 제외했습니다. 아래 5곳은 실제 흙길이 확인된 코스입니다.
+    </div>
+
     <div class="card">
-      <div class="food-img-wrap"><img src="img/sejogil.jpg" alt="세조길" onclick="showOverlay(this.src)"></div>
-      <div class="card-header"><span class="card-title">세조길 (법주사~세심정)</span><span class="card-badge badge-course">추천 1</span></div>
+      <div class="card-header"><span class="card-title">이평소공원 황톳길</span><span class="card-badge" style="background:#e65100">BEST</span></div>
       <div class="card-body">
-        <div class="detail">편도 3.2km / 왕복 약 2시간 / 경사 완만</div>
-        <div class="detail">흙길과 나무 데크가 어우러진 평탄한 숲길. 계곡을 따라 걷는 부드러운 노면으로 맨발걷기에 최적. 소나무 숲의 피톤치드와 계곡 물소리가 힐링을 더합니다.</div>
-        <div class="detail">1.2km 무장애 탐방로 구간은 특히 맨발로 걷기 편안합니다.</div>
-        <div class="detail" style="color:#2e86c1">위치: 법주사 매표소 ~ 세심정 갈림길</div>
-        <span class="tag tag-green">흙길</span><span class="tag tag-blue">계곡</span><span class="tag tag-green">초보 추천</span><span class="tag tag-purple">피톤치드</span>
+        <div class="detail">250m / 10~15분 / 전용 맨발걷기 코스</div>
+        <div class="detail">보은군이 1억7천만원을 투입해 조성한 전용 맨발걷기 황톳길. 폭 2m의 부드러운 황토 흙길에 세족장(발 씻는 곳), 100㎡ 황토 체험장, 퍼걸러(쉼터)까지 완비되어 있어 가장 안전하고 확실한 맨발걷기 장소입니다.</div>
+        <div class="detail" style="color:#2e86c1">위치: 보은군 보은읍 이평소공원 (차로 약 20분)</div>
+        <span class="tag tag-orange">전용 코스</span><span class="tag tag-green">황토길</span><span class="tag tag-blue">세족장</span><span class="tag tag-green">초보 추천</span>
       </div>
     </div>
 
@@ -536,39 +541,41 @@
       <div class="card-header"><span class="card-title">솔향공원 소나무 숲길</span><span class="card-badge badge-course">추천 2</span></div>
       <div class="card-body">
         <div class="detail">약 1~2km / 30분~1시간 / 평지</div>
-        <div class="detail">보은의 명물 소나무 테마공원. 소나무 숲 사이 부드러운 흙길이 조성되어 있어 맨발걷기에 안성맞춤. 미로공원, 소나무 전시관과 함께 즐길 수 있습니다.</div>
+        <div class="detail">국내 최대급 20만㎡ 소나무 테마공원. 평지 흙길 산책로가 조성되어 있어 맨발걷기에 적합합니다. 미로공원, 소나무 전시관과 함께 즐길 수 있으며 무료 입장입니다.</div>
         <div class="detail" style="color:#2e86c1">위치: 보은군 속리산면 만수리 솔향공원</div>
-        <span class="tag tag-green">소나무 숲</span><span class="tag tag-green">평지</span><span class="tag tag-green">가족</span>
+        <span class="tag tag-green">소나무 숲</span><span class="tag tag-green">평지</span><span class="tag tag-green">가족</span><span class="tag tag-green">무료</span>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-header"><span class="card-title">말티재 자연휴양림 산책로</span><span class="card-badge badge-course">추천 3</span></div>
+      <div class="card-header"><span class="card-title">오리숲길 (후반 흙길 구간)</span><span class="card-badge badge-course">추천 3</span></div>
       <div class="card-body">
-        <div class="detail">약 1~3km / 30분~1시간 30분 / 완만</div>
-        <div class="detail">소나무 가득한 말티재 휴양림 내 힐링 산책로. 푹신한 낙엽과 흙이 깔린 숲길로 맨발걷기와 삼림욕을 동시에 즐길 수 있습니다. 도심에서 멀어 공기가 청정합니다.</div>
-        <div class="detail" style="color:#2e86c1">위치: 보은군 속리산면 말티재 자연휴양림</div>
+        <div class="detail">후반 흙길 약 1km / 20분 / 평탄</div>
+        <div class="detail">소나무 숲터널이 아름다운 명품 코스. 단, 초반~중반은 포장 탐방로이므로 후반부 흙길 구간에서만 맨발걷기를 추천합니다. 법주사 일주문 인근에서 신발을 벗고 걸어보세요.</div>
+        <div class="detail" style="color:#e65100">주의: 초반 포장구간에서는 신발 착용 필수</div>
+        <div class="detail" style="color:#2e86c1">위치: 속리산 탐방지원센터 ~ 법주사 일주문</div>
+        <span class="tag tag-green">숲터널</span><span class="tag tag-orange">후반만 흙길</span><span class="tag tag-green">명품 코스</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">말티재 자연휴양림 산책로</span><span class="card-badge badge-course">추천 4</span></div>
+      <div class="card-body">
+        <div class="detail">산책로 2.5km / 약 1시간 / 완만</div>
+        <div class="detail">소나무 숲 속 낙엽과 흙이 깔린 산책로. 피톤치드 삼림욕과 맨발걷기를 동시에 즐길 수 있습니다. 도심에서 멀어 공기가 청정하며, 국민의 숲(미로의 숲, 소통의 숲) 구간도 있습니다.</div>
+        <div class="detail" style="color:#2e86c1">위치: 보은군 장안면 속리산로 256 (043-543-6282)</div>
         <span class="tag tag-green">낙엽길</span><span class="tag tag-blue">삼림욕</span><span class="tag tag-purple">힐링</span>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-header"><span class="card-title">속리산 오리숲길</span><span class="card-badge badge-course">추천 4</span></div>
+      <div class="food-img-wrap"><img src="img/jeongipomsong.jpg" alt="정이품송" onclick="showOverlay(this.src)"></div>
+      <div class="card-header"><span class="card-title">정이품송 ~ 비룡저수지 코스</span><span class="card-badge badge-course">추천 5</span></div>
       <div class="card-body">
-        <div class="detail">약 2km / 40분 / 평탄</div>
-        <div class="detail">법주사 입구까지 이어지는 울창한 숲길. 오래된 소나무와 활엽수가 터널을 이루고 부드러운 흙바닥이 맨발을 편안하게 감싸줍니다. 한국관광공사 '걷기여행 길'로 선정된 명품 코스.</div>
-        <div class="detail" style="color:#2e86c1">위치: 속리산 탐방지원센터 ~ 법주사 일주문</div>
-        <span class="tag tag-green">숲터널</span><span class="tag tag-green">평탄</span><span class="tag tag-orange">명품 코스</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header"><span class="card-title">속리산 둘레길 (달천 들녘길)</span><span class="card-badge badge-course">추천 5</span></div>
-      <div class="card-body">
-        <div class="detail">약 8km / 3시간 / 평지~완만</div>
-        <div class="detail">달천 계곡을 따라 이어지는 들녘길 구간. 논두렁과 흙길이 이어져 자연 그대로의 맨발걷기를 체험할 수 있습니다. 긴 코스이므로 일부 구간만 골라서 걸어도 좋습니다.</div>
-        <div class="detail" style="color:#2e86c1">위치: 속리산 둘레길 보은길 3구간</div>
-        <span class="tag tag-green">들길</span><span class="tag tag-blue">계곡</span><span class="tag tag-orange">장거리</span>
+        <div class="detail">4.6km / 약 1시간 / 저지대 평탄 흙길</div>
+        <div class="detail">속리산 등산 코스 중 가장 수월한 저지대 수평탐방 코스. 비룡저수지와 깨끗한 숲, 옛길의 아늑함을 느낄 수 있으며 흙길이 이어져 맨발걷기에 적합합니다. 천연기념물 정이품송도 함께 감상하세요.</div>
+        <div class="detail" style="color:#2e86c1">위치: 정이품송 ~ 비룡저수지 구간</div>
+        <span class="tag tag-green">흙길</span><span class="tag tag-blue">저수지</span><span class="tag tag-green">평탄</span><span class="tag tag-orange">정이품송</span>
       </div>
     </div>
 
@@ -577,8 +584,9 @@
       - 처음에는 10~15분부터 시작해 점차 늘려가세요<br>
       - 날카로운 돌이나 나뭇가지에 주의하세요<br>
       - 당뇨 등 족부질환이 있는 분은 의사와 상담 후 시도하세요<br>
-      - 신발을 챙겨가서 필요시 바로 신을 수 있게 하세요<br>
-      - 걷기 후 발을 깨끗이 씻고 보습해주세요
+      - 신발을 꼭 챙겨가서 필요시 바로 신을 수 있게 하세요<br>
+      - 걷기 후 발을 깨끗이 씻고 보습해주세요<br>
+      - 이평소공원 황톳길에는 세족장이 있어 편리합니다
     </div>
   </div>
 

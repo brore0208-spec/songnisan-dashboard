@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" font-family="'Malgun Gothic', sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f5e9"/>
+      <stop offset="100%" stop-color="#a5d6a7"/>
+    </linearGradient>
+    <linearGradient id="header" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1b5e20"/>
+      <stop offset="100%" stop-color="#388e3c"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- 배경 -->
+  <rect width="800" height="900" fill="url(#bg)" rx="20"/>
+
+  <!-- 헤더 -->
+  <rect x="30" y="20" width="740" height="90" rx="16" fill="url(#header)" filter="url(#shadow)"/>
+  <text x="400" y="55" text-anchor="middle" fill="white" font-size="28" font-weight="700">속리산 포레스트 주변</text>
+  <text x="400" y="85" text-anchor="middle" fill="#c8e6c9" font-size="22" font-weight="600">맨발걷기 추천 코스 (검증 완료)</text>
+
+  <!-- 중앙 속리산 포레스트 -->
+  <ellipse cx="400" cy="460" rx="90" ry="45" fill="#2e7d32" opacity="0.15" stroke="#2e7d32" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="400" y="455" text-anchor="middle" fill="#1b5e20" font-size="15" font-weight="700">속리산</text>
+  <text x="400" y="475" text-anchor="middle" fill="#1b5e20" font-size="15" font-weight="700">포레스트</text>
+
+  <!-- 나무 아이콘들 -->
+  <g fill="#4caf50" opacity="0.4">
+    <polygon points="400,400 390,420 410,420"/>
+    <polygon points="400,408 387,428 413,428"/>
+    <polygon points="320,445 312,460 328,460"/>
+    <polygon points="480,445 472,460 488,460"/>
+    <polygon points="370,490 362,505 378,505"/>
+    <polygon points="430,490 422,505 438,505"/>
+  </g>
+
+  <!-- 코스 1: 이평소공원 황톳길 (왼쪽 상단) - BEST -->
+  <rect x="30" y="130" width="350" height="150" rx="14" fill="white" filter="url(#shadow)"/>
+  <rect x="30" y="130" width="350" height="6" rx="3" fill="#e65100"/>
+  <circle cx="65" cy="172" r="20" fill="#e65100"/>
+  <text x="65" y="178" text-anchor="middle" fill="white" font-size="18" font-weight="700">1</text>
+  <text x="95" y="165" fill="#1b5e20" font-size="18" font-weight="700">이평소공원 황톳길</text>
+  <text x="95" y="183" fill="#666" font-size="12">보은읍 이평리 소공원</text>
+  <text x="55" y="210" fill="#333" font-size="13">250m / 10~15분 / 전용 맨발걷기 코스</text>
+  <text x="55" y="228" fill="#555" font-size="12">황토 흙길 + 세족장 + 황토체험장 완비</text>
+  <rect x="55" y="240" width="70" height="20" rx="10" fill="#fff3e0"/>
+  <text x="90" y="254" text-anchor="middle" fill="#e65100" font-size="10" font-weight="600">BEST</text>
+  <rect x="130" y="240" width="65" height="20" rx="10" fill="#e8f5e9"/>
+  <text x="162" y="254" text-anchor="middle" fill="#2e7d32" font-size="10" font-weight="600">황토길</text>
+  <rect x="200" y="240" width="65" height="20" rx="10" fill="#e3f2fd"/>
+  <text x="232" y="254" text-anchor="middle" fill="#1565c0" font-size="10" font-weight="600">세족장</text>
+  <text x="55" y="270" fill="#c0392b" font-size="11" font-weight="600">* 맨발걷기 전용 조성 코스 (가장 확실)</text>
+
+  <!-- 연결선 1 -->
+  <line x1="330" y1="280" x2="370" y2="430" stroke="#e65100" stroke-width="2" stroke-dasharray="6,4" opacity="0.5"/>
+
+  <!-- 코스 2: 솔향공원 (오른쪽 상단) -->
+  <rect x="420" y="130" width="350" height="140" rx="14" fill="white" filter="url(#shadow)"/>
+  <rect x="420" y="130" width="350" height="6" rx="3" fill="#388e3c"/>
+  <circle cx="455" cy="172" r="20" fill="#388e3c"/>
+  <text x="455" y="178" text-anchor="middle" fill="white" font-size="18" font-weight="700">2</text>
+  <text x="485" y="165" fill="#1b5e20" font-size="18" font-weight="700">솔향공원 소나무 숲길</text>
+  <text x="485" y="183" fill="#666" font-size="12">보은군 속리산면 만수리</text>
+  <text x="445" y="210" fill="#333" font-size="13">1~2km / 30분~1시간 / 평지</text>
+  <text x="445" y="228" fill="#555" font-size="12">20만㎡ 소나무 숲 평지 흙길 / 무료</text>
+  <rect x="445" y="240" width="80" height="20" rx="10" fill="#e8f5e9"/>
+  <text x="485" y="254" text-anchor="middle" fill="#2e7d32" font-size="10" font-weight="600">소나무 숲</text>
+  <rect x="530" y="240" width="55" height="20" rx="10" fill="#e8f5e9"/>
+  <text x="557" y="254" text-anchor="middle" fill="#2e7d32" font-size="10" font-weight="600">평지</text>
+  <rect x="590" y="240" width="55" height="20" rx="10" fill="#fff3e0"/>
+  <text x="617" y="254" text-anchor="middle" fill="#e65100" font-size="10" font-weight="600">가족</text>
+
+  <!-- 연결선 2 -->
+  <line x1="470" y1="270" x2="430" y2="430" stroke="#388e3c" stroke-width="2" stroke-dasharray="6,4" opacity="0.5"/>
+
+  <!-- 코스 3: 오리숲길 후반 흙길 (왼쪽 하단) -->
+  <rect x="30" y="520" width="350" height="140" rx="14" fill="white" filter="url(#shadow)"/>
+  <rect x="30" y="520" width="350" height="6" rx="3" fill="#43a047"/>
+  <circle cx="65" cy="562" r="20" fill="#43a047"/>
+  <text x="65" y="568" text-anchor="middle" fill="white" font-size="18" font-weight="700">3</text>
+  <text x="95" y="555" fill="#1b5e20" font-size="18" font-weight="700">오리숲길 (후반 흙길)</text>
+  <text x="95" y="573" fill="#666" font-size="12">탐방지원센터 ~ 법주사 일주문</text>
+  <text x="55" y="600" fill="#333" font-size="13">약 1km (후반 흙길 구간) / 20분</text>
+  <text x="55" y="618" fill="#555" font-size="12">소나무 숲터널 흙길 / 초반 포장구간 주의</text>
+  <rect x="55" y="630" width="65" height="20" rx="10" fill="#e8f5e9"/>
+  <text x="87" y="644" text-anchor="middle" fill="#2e7d32" font-size="10" font-weight="600">숲터널</text>
+  <rect x="125" y="630" width="80" height="20" rx="10" fill="#fff9c4"/>
+  <text x="165" y="644" text-anchor="middle" fill="#f57f17" font-size="10" font-weight="600">후반만 흙길</text>
+
+  <!-- 연결선 3 -->
+  <line x1="300" y1="520" x2="370" y2="480" stroke="#43a047" stroke-width="2" stroke-dasharray="6,4" opacity="0.5"/>
+
+  <!-- 코스 4: 말티재 자연휴양림 (오른쪽 하단) -->
+  <rect x="420" y="520" width="350" height="140" rx="14" fill="white" filter="url(#shadow)"/>
+  <rect x="420" y="520" width="350" height="6" rx="3" fill="#66bb6a"/>
+  <circle cx="455" cy="562" r="20" fill="#66bb6a"/>
+  <text x="455" y="568" text-anchor="middle" fill="white" font-size="18" font-weight="700">4</text>
+  <text x="485" y="555" fill="#1b5e20" font-size="18" font-weight="700">말티재 자연휴양림</text>
+  <text x="485" y="573" fill="#666" font-size="12">보은군 장안면 속리산로 256</text>
+  <text x="445" y="600" fill="#333" font-size="13">산책로 2.5km / 1시간 / 완만</text>
+  <text x="445" y="618" fill="#555" font-size="12">낙엽+흙 숲길 / 피톤치드 삼림욕</text>
+  <rect x="445" y="630" width="65" height="20" rx="10" fill="#e8f5e9"/>
+  <text x="477" y="644" text-anchor="middle" fill="#2e7d32" font-size="10" font-weight="600">낙엽길</text>
+  <rect x="515" y="630" width="65" height="20" rx="10" fill="#e3f2fd"/>
+  <text x="547" y="644" text-anchor="middle" fill="#1565c0" font-size="10" font-weight="600">삼림욕</text>
+  <rect x="585" y="630" width="55" height="20" rx="10" fill="#f3e5f5"/>
+  <text x="612" y="644" text-anchor="middle" fill="#7b1fa2" font-size="10" font-weight="600">힐링</text>
+
+  <!-- 연결선 4 -->
+  <line x1="500" y1="520" x2="430" y2="480" stroke="#66bb6a" stroke-width="2" stroke-dasharray="6,4" opacity="0.5"/>
+
+  <!-- 코스 5: 정이품송~비룡저수지 (하단 중앙) -->
+  <rect x="140" y="700" width="520" height="120" rx="14" fill="white" filter="url(#shadow)"/>
+  <rect x="140" y="700" width="520" height="6" rx="3" fill="#81c784"/>
+  <circle cx="175" cy="745" r="20" fill="#81c784"/>
+  <text x="175" y="751" text-anchor="middle" fill="white" font-size="18" font-weight="700">5</text>
+  <text x="205" y="738" fill="#1b5e20" font-size="18" font-weight="700">정이품송 ~ 비룡저수지 코스</text>
+  <text x="205" y="756" fill="#666" font-size="12">속리산 저지대 수평탐방로</text>
+  <text x="175" y="783" fill="#333" font-size="13">4.6km / 약 1시간 / 저지대 평탄 흙길 / 수월한 난이도</text>
+  <rect x="175" y="793" width="55" height="20" rx="10" fill="#e8f5e9"/>
+  <text x="202" y="807" text-anchor="middle" fill="#2e7d32" font-size="10" font-weight="600">흙길</text>
+  <rect x="235" y="793" width="55" height="20" rx="10" fill="#e3f2fd"/>
+  <text x="262" y="807" text-anchor="middle" fill="#1565c0" font-size="10" font-weight="600">저수지</text>
+  <rect x="295" y="793" width="65" height="20" rx="10" fill="#e8f5e9"/>
+  <text x="327" y="807" text-anchor="middle" fill="#2e7d32" font-size="10" font-weight="600">평탄</text>
+
+  <!-- 연결선 5 -->
+  <line x1="400" y1="700" x2="400" y2="500" stroke="#81c784" stroke-width="2" stroke-dasharray="6,4" opacity="0.5"/>
+
+  <!-- 하단 안내 -->
+  <rect x="30" y="845" width="740" height="40" rx="10" fill="#1b5e20" opacity="0.85"/>
+  <text x="400" y="870" text-anchor="middle" fill="white" font-size="13">2026 대구교회 여름집회 | 맨발걷기 안내 | 신발을 꼭 챙겨가세요!</text>
+</svg>
