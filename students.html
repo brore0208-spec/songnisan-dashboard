@@ -23,6 +23,16 @@
   .header h1 { font-size: 1.2rem; margin-bottom: 2px; }
   .header p { font-size: 0.75rem; opacity: 0.8; }
 
+  .nav-links {
+    margin-top: 8px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+  }
+  .nav-link {
+    color: white; text-decoration: none; font-size: 0.75rem;
+    padding: 4px 12px; border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 14px; transition: background 0.2s;
+  }
+  .nav-link:hover { background: rgba(255,255,255,0.15); }
+
   .search-area {
     position: sticky; top: 56px; z-index: 99;
     background: #f0f2f5; padding: 10px 12px 4px;
@@ -111,6 +121,11 @@
 <div class="header">
   <h1>교회학교 아이들 참가 명단</h1>
   <p>2026 전국 여름집회</p>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">객실 배정</a>
+    <a class="nav-link" href="members.html">신청자 명단</a>
+    <a class="nav-link" href="travel.html">여행 가이드</a>
+  </div>
 </div>
 
 <div class="search-area">
