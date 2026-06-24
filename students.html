@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>2026 여름집회 교회학교 참가 명단</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+    background: #f0f2f5; color: #333;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .header {
+    background: linear-gradient(135deg, #1a5276, #2e86c1);
+    color: white; padding: 20px 16px 14px; text-align: center;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header h1 { font-size: 1.2rem; margin-bottom: 2px; }
+  .header p { font-size: 0.75rem; opacity: 0.8; }
+
+  .search-area {
+    position: sticky; top: 56px; z-index: 99;
+    background: #f0f2f5; padding: 10px 12px 4px;
+  }
+  .search-area input {
+    width: 100%; max-width: 600px; display: block; margin: 0 auto;
+    padding: 11px 12px; border: 2px solid #ddd; border-radius: 10px;
+    font-size: 16px; outline: none; background: white;
+    transition: border-color 0.2s;
+  }
+  .search-area input:focus { border-color: #2e86c1; }
+
+  .stats-bar {
+    display: grid; grid-template-columns: repeat(6, 1fr);
+    background: white; padding: 12px 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: sticky; top: 102px; z-index: 98;
+  }
+  .stat { text-align: center; }
+  .stat .num { font-size: 1.3rem; font-weight: 700; color: #1a5276; }
+  .stat .label { font-size: 0.65rem; color: #888; margin-top: 1px; }
+
+  .container { padding: 12px; max-width: 600px; margin: 0 auto; }
+
+  .group-card {
+    background: white; border-radius: 12px; margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08); overflow: hidden;
+  }
+  .group-header {
+    padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; user-select: none;
+  }
+  .group-header:active { background: #f8f9fa; }
+  .group-title { font-size: 1rem; font-weight: 700; }
+  .group-count {
+    font-size: 0.8rem; color: white; padding: 2px 10px;
+    border-radius: 10px; font-weight: 600;
+  }
+  .group-body { padding: 0 16px 14px; }
+  .name-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 6px;
+  }
+  .name-chip {
+    background: #f0f4f8; padding: 6px 8px; border-radius: 8px;
+    font-size: 0.85rem; text-align: center; white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .name-chip.highlight {
+    background: #fff3cd; font-weight: 700;
+  }
+  .no-result {
+    text-align: center; padding: 30px; color: #999; font-size: 0.9rem;
+    display: none;
+  }
+
+  /* 그룹별 색상 */
+  .color-yangmun .group-header { border-left: 4px solid #2e86c1; }
+  .color-yangmun .group-count { background: #2e86c1; }
+  .color-teacher .group-header { border-left: 4px solid #8e44ad; }
+  .color-teacher .group-count { background: #8e44ad; }
+  .color-high .group-header { border-left: 4px solid #e67e22; }
+  .color-high .group-count { background: #e67e22; }
+  .color-middle .group-header { border-left: 4px solid #27ae60; }
+  .color-middle .group-count { background: #27ae60; }
+  .color-elem .group-header { border-left: 4px solid #e74c3c; }
+  .color-elem .group-count { background: #e74c3c; }
+  .color-kinder .group-header { border-left: 4px solid #f39c12; }
+  .color-kinder .group-count { background: #f39c12; }
+
+  .total-box {
+    text-align: center; padding: 14px; margin-bottom: 12px;
+    background: white; border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .total-box .total-num { font-size: 2rem; font-weight: 800; color: #1a5276; }
+  .total-box .total-label { font-size: 0.8rem; color: #888; }
+
+  @media (min-width: 480px) {
+    .name-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>교회학교 아이들 참가 명단</h1>
+  <p>2026 전국 여름집회</p>
+</div>
+
+<div class="search-area">
+  <input type="text" id="searchInput" placeholder="이름 검색" oninput="search()">
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><div class="num">21</div><div class="label">양문회</div></div>
+  <div class="stat"><div class="num">5</div><div class="label">양문교사</div></div>
+  <div class="stat"><div class="num">8</div><div class="label">고등부</div></div>
+  <div class="stat"><div class="num">7</div><div class="label">중등부</div></div>
+  <div class="stat"><div class="num">20</div><div class="label">초등부</div></div>
+  <div class="stat"><div class="num">25</div><div class="label">유치부</div></div>
+</div>
+
+<div class="container">
+
+  <div class="total-box">
+    <div class="total-num">86</div>
+    <div class="total-label">초중고 전체 참가자</div>
+  </div>
+
+  <div class="group-card color-yangmun">
+    <div class="group-header" onclick="toggle(this)">
+      <span class="group-title">양문회</span>
+      <span class="group-count">21명</span>
+    </div>
+    <div class="group-body">
+      <div class="name-grid">
+        <div class="name-chip">김소현</div>
+        <div class="name-chip">김영관6</div>
+        <div class="name-chip">김향인</div>
+        <div class="name-chip">남경민</div>
+        <div class="name-chip">박민경</div>
+        <div class="name-chip">박재성</div>
+        <div class="name-chip">백종규</div>
+        <div class="name-chip">서경준</div>
+        <div class="name-chip">손수영</div>
+        <div class="name-chip">신민정</div>
+        <div class="name-chip">신영철</div>
+        <div class="name-chip">이강진</div>
+        <div class="name-chip">이수빈</div>
+        <div class="name-chip">이시문</div>
+        <div class="name-chip">이연준</div>
+        <div class="name-chip">이연호</div>
+        <div class="name-chip">이제화</div>
+        <div class="name-chip">인시온</div>
+        <div class="name-chip">정고은</div>
+        <div class="name-chip">태주선</div>
+        <div class="name-chip">황도영</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="group-card color-teacher">
+    <div class="group-header" onclick="toggle(this)">
+      <span class="group-title">양문교사</span>
+      <span class="group-count">5명</span>
+    </div>
+    <div class="group-body">
+      <div class="name-grid">
+        <div class="name-chip">김재형</div>
+        <div class="name-chip">노영지</div>
+        <div class="name-chip">이세훈</div>
+        <div class="name-chip">이준재</div>
+        <div class="name-chip">홍원순</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="group-card color-high">
+    <div class="group-header" onclick="toggle(this)">
+      <span class="group-title">고등부</span>
+      <span class="group-count">8명</span>
+    </div>
+    <div class="group-body">
+      <div class="name-grid">
+        <div class="name-chip">김대은</div>
+        <div class="name-chip">김동산</div>
+        <div class="name-chip">백지헌</div>
+        <div class="name-chip">유도윤</div>
+        <div class="name-chip">유서윤</div>
+        <div class="name-chip">윤덕인</div>
+        <div class="name-chip">정무원</div>
+        <div class="name-chip">최진규</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="group-card color-middle">
+    <div class="group-header" onclick="toggle(this)">
+      <span class="group-title">중등부</span>
+      <span class="group-count">7명</span>
+    </div>
+    <div class="group-body">
+      <div class="name-grid">
+        <div class="name-chip">김에스더</div>
+        <div class="name-chip">백지훈</div>
+        <div class="name-chip">서찬미</div>
+        <div class="name-chip">이강지온</div>
+        <div class="name-chip">이윤하</div>
+        <div class="name-chip">정성은</div>
+        <div class="name-chip">최유진</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="group-card color-elem">
+    <div class="group-header" onclick="toggle(this)">
+      <span class="group-title">초등부</span>
+      <span class="group-count">20명</span>
+    </div>
+    <div class="group-body">
+      <div class="name-grid">
+        <div class="name-chip">고나윤</div>
+        <div class="name-chip">김동인</div>
+        <div class="name-chip">김루디아</div>
+        <div class="name-chip">김민석</div>
+        <div class="name-chip">석수연</div>
+        <div class="name-chip">안시현</div>
+        <div class="name-chip">윤은수</div>
+        <div class="name-chip">이솔희</div>
+        <div class="name-chip">이재원</div>
+        <div class="name-chip">이찬희</div>
+        <div class="name-chip">이하은</div>
+        <div class="name-chip">이하준</div>
+        <div class="name-chip">정서윤</div>
+        <div class="name-chip">정이안</div>
+        <div class="name-chip">조은수</div>
+        <div class="name-chip">채수혁</div>
+        <div class="name-chip">최미정</div>
+        <div class="name-chip">최준희</div>
+        <div class="name-chip">하시은</div>
+        <div class="name-chip">하은성</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="group-card color-kinder">
+    <div class="group-header" onclick="toggle(this)">
+      <span class="group-title">유치부</span>
+      <span class="group-count">25명</span>
+    </div>
+    <div class="group-body">
+      <div class="name-grid">
+        <div class="name-chip">고은빛</div>
+        <div class="name-chip">김다니엘</div>
+        <div class="name-chip">김리한</div>
+        <div class="name-chip">김승기</div>
+        <div class="name-chip">김유안</div>
+        <div class="name-chip">김이도</div>
+        <div class="name-chip">김이래</div>
+        <div class="name-chip">김주안</div>
+        <div class="name-chip">김희다</div>
+        <div class="name-chip">노건율</div>
+        <div class="name-chip">노건희</div>
+        <div class="name-chip">박재현</div>
+        <div class="name-chip">박진우</div>
+        <div class="name-chip">배다은</div>
+        <div class="name-chip">석찬영</div>
+        <div class="name-chip">안시호</div>
+        <div class="name-chip">이다인</div>
+        <div class="name-chip">이의소</div>
+        <div class="name-chip">정성율</div>
+        <div class="name-chip">정우준</div>
+        <div class="name-chip">정태인</div>
+        <div class="name-chip">최문희</div>
+        <div class="name-chip">최영인</div>
+        <div class="name-chip">최정인</div>
+        <div class="name-chip">황신성</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-result" id="noResult">검색 결과가 없습니다.</div>
+</div>
+
+<script>
+function toggle(header) {
+  const body = header.nextElementSibling;
+  body.style.display = body.style.display === 'none' ? '' : 'none';
+}
+
+function search() {
+  const q = document.getElementById('searchInput').value.trim();
+  const cards = document.querySelectorAll('.group-card');
+  let totalFound = 0;
+
+  cards.forEach(card => {
+    const chips = card.querySelectorAll('.name-chip');
+    let groupFound = 0;
+    chips.forEach(chip => {
+      if (q && chip.textContent.includes(q)) {
+        chip.classList.add('highlight');
+        chip.style.display = '';
+        groupFound++;
+      } else {
+        chip.classList.remove('highlight');
+        chip.style.display = q ? 'none' : '';
+      }
+    });
+    card.style.display = (q && groupFound === 0) ? 'none' : '';
+    const body = card.querySelector('.group-body');
+    if (q && groupFound > 0) body.style.display = '';
+    totalFound += groupFound;
+  });
+
+  document.querySelector('.total-box').style.display = q ? 'none' : '';
+  document.getElementById('noResult').style.display = (q && totalFound === 0) ? '' : 'none';
+}
+</script>
+</body>
+</html>
