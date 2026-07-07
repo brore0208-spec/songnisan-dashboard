@@ -134,10 +134,31 @@
   .color-yangmun .m-tag.leader { background: #c0392b; color: white; }
   .color-yangmun .group-badge { background: #c0392b; }
 
+  .stats-bar {
+    display: grid; grid-template-columns: repeat(6, 1fr);
+    background: white; padding: 10px 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: sticky; top: 56px; z-index: 99;
+    max-width: 700px; margin: 0 auto;
+  }
+  .stat { text-align: center; }
+  .stat .num { font-size: 1.2rem; font-weight: 700; color: #1a5276; }
+  .stat .label { font-size: 0.6rem; color: #888; margin-top: 1px; }
+  .stat.s-chungsim .num { color: #7d3c98; }
+  .stat.s-jangja .num { color: #d35400; }
+  .stat.s-yangsaeng .num { color: #27ae60; }
+  .stat.s-yangmun .num { color: #c0392b; }
+
   @media (min-width: 768px) {
     .header { padding: 24px 32px 18px; }
     .header h1 { font-size: 1.5rem; }
-    .search-area { top: 62px; }
+    .stats-bar { padding: 14px; }
+    .stat .num { font-size: 1.4rem; }
+    .stat .label { font-size: 0.72rem; }
+    .search-area { top: 110px; }
+  }
+  @media (max-width: 767px) {
+    .search-area { top: 102px; }
   }
 </style>
 </head>
@@ -152,6 +173,15 @@
     <a class="nav-link" href="travel.html">여행 코스</a>
     <a class="nav-link" href="students.html">교회학교</a>
   </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><div class="num" id="statTotal">-</div><div class="label">전체</div></div>
+  <div class="stat"><div class="num" id="statJangnyeon">-</div><div class="label">장년</div></div>
+  <div class="stat s-chungsim"><div class="num" id="statChungsim">-</div><div class="label">청심</div></div>
+  <div class="stat s-jangja"><div class="num" id="statJangja">-</div><div class="label">장자</div></div>
+  <div class="stat s-yangsaeng"><div class="num" id="statYangsaeng">-</div><div class="label">양생</div></div>
+  <div class="stat s-yangmun"><div class="num" id="statYangmun">-</div><div class="label">양문~유초중고</div></div>
 </div>
 
 <div class="search-area">
@@ -224,7 +254,7 @@ function parseJangnyeon(text) {
     groups.push({
       tab: "jangnyeon", color: "", title: name,
       room: room ? room + "호" : "",
-      badge: members.length + "명",
+      badge: (members.length + (leader ? 1 : 0)) + "명",
       leader, members
     });
   }
@@ -355,7 +385,22 @@ async function loadAll() {
     document.getElementById("content").innerHTML = '<div class="no-result">데이터를 불러오지 못했습니다. 새로고침 해주세요.</div>';
     return;
   }
+  updateStats();
   render();
+}
+
+function countMembers(tab) {
+  return allGroups.filter(g => g.tab === tab)
+    .reduce((s, g) => s + (g.leader ? 1 : 0) + g.members.length, 0);
+}
+function updateStats() {
+  const total = allGroups.reduce((s, g) => s + (g.leader ? 1 : 0) + g.members.length, 0);
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statJangnyeon").textContent = countMembers("jangnyeon");
+  document.getElementById("statChungsim").textContent = countMembers("chungsim");
+  document.getElementById("statJangja").textContent = countMembers("jangja");
+  document.getElementById("statYangsaeng").textContent = countMembers("yangsaeng");
+  document.getElementById("statYangmun").textContent = countMembers("yangmun");
 }
 
 function render() {
