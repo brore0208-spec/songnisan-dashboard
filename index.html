@@ -50,6 +50,17 @@
   .search-area input:focus, .search-area select:focus { border-color: #2e86c1; }
   #searchInput { flex: 1; min-width: 0; }
   #buildingFilter { width: 90px; flex-shrink: 0; }
+  .date-filter-row {
+    display: flex; gap: 6px; margin-top: 8px; align-items: center;
+  }
+  .date-filter-row label {
+    font-size: 0.75rem; color: #555; font-weight: 600; flex-shrink: 0;
+  }
+  .date-filter-row input[type="date"] {
+    flex: 1; min-width: 0; padding: 8px 6px; border: 2px solid #ddd;
+    border-radius: 8px; font-size: 13px; outline: none; background: white;
+  }
+  .date-filter-row input[type="date"]:focus { border-color: #2e86c1; }
   .clear-btn {
     padding: 11px 14px; background: #e74c3c; color: white; border: none;
     border-radius: 10px; cursor: pointer; font-size: 0.85rem; flex-shrink: 0;
@@ -222,6 +233,12 @@
     </select>
     <button class="clear-btn" onclick="clearSearch()">초기화</button>
   </div>
+  <div class="date-filter-row">
+    <label>입실</label>
+    <input type="date" id="filterCheckIn" onchange="render()">
+    <label>퇴실</label>
+    <input type="date" id="filterCheckOut" onchange="render()">
+  </div>
 </div>
 
 <div class="tab-bar" id="tabBar">
@@ -361,6 +378,9 @@ document.getElementById("tabBar").addEventListener("click", e => {
 function render() {
   const kw = (document.getElementById("searchInput").value || "").trim().toLowerCase();
   const building = document.getElementById("buildingFilter").value;
+  const filterIn = document.getElementById("filterCheckIn").value;
+  const filterOut = document.getElementById("filterCheckOut").value;
+  const hasDateFilter = filterIn || filterOut;
   const list = document.getElementById("roomList");
   let html = "", count = 0, matchedPeople = 0;
 
@@ -372,6 +392,20 @@ function render() {
     const memberMatches = kw ? r.members.filter(m => m.toLowerCase().includes(kw)) : [];
     if (kw && !roomMatch && memberMatches.length === 0) return;
 
+    /* 날짜 필터: 해당 객실에 조건에 맞는 멤버가 1명이라도 있어야 표시 */
+    let dateMatchMembers = null;
+    if (hasDateFilter) {
+      dateMatchMembers = new Set();
+      r.members.forEach(m => {
+        const saved = getSavedDates(m);
+        if (!saved) return;
+        if (filterIn && saved.checkIn !== filterIn) return;
+        if (filterOut && saved.checkOut !== filterOut) return;
+        dateMatchMembers.add(m);
+      });
+      if (dateMatchMembers.size === 0) return;
+    }
+
     const isB = r.room.startsWith("B");
     const highlight = memberMatches.length > 0 ? " highlight" : "";
 
@@ -382,10 +416,11 @@ function render() {
     html += '</div><div class="room-members">';
     r.members.forEach(m => {
       const isMatched = kw && m.toLowerCase().includes(kw);
+      const isDateMatch = dateMatchMembers && dateMatchMembers.has(m);
       if (isMatched) matchedPeople++;
       let cls = "member-tag";
       if (isB) cls += " b-tag";
-      if (isMatched) cls += " matched";
+      if (isMatched || isDateMatch) cls += " matched";
       const saved = getSavedDates(m);
       const dot = saved ? '<span class="date-dot"></span>' : '';
       const dateInfo = saved ?
@@ -410,6 +445,11 @@ function render() {
     info.textContent = '"' + kw + '" : ' + matchedPeople + '명 / ' + count + '개 객실';
   } else if (kw) {
     info.textContent = '"' + kw + '" : ' + count + '개 객실 일치';
+  } else if (hasDateFilter) {
+    const parts = [];
+    if (filterIn) parts.push("입실 " + formatShort(filterIn));
+    if (filterOut) parts.push("퇴실 " + formatShort(filterOut));
+    info.textContent = parts.join(" / ") + " : " + count + "개 객실";
   } else if (building !== "all" || currentFloor !== "all") {
     const parts = [];
     if (building !== "all") parts.push(building + "동");
@@ -426,6 +466,8 @@ document.getElementById("buildingFilter").addEventListener("change", render);
 function clearSearch() {
   document.getElementById("searchInput").value = "";
   document.getElementById("buildingFilter").value = "all";
+  document.getElementById("filterCheckIn").value = "";
+  document.getElementById("filterCheckOut").value = "";
   currentFloor = "all";
   document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
   document.querySelector('.tab-btn[data-floor="all"]').classList.add("active");
