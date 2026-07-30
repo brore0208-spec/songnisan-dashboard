@@ -59,20 +59,22 @@
   .table-card {
     background: white; border-radius: 12px; margin: 8px 0;
     box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .full-table {
     width: 100%; border-collapse: collapse; font-size: 0.78rem;
-    min-width: 750px;
   }
   .full-table thead th {
     background: #1a5276; color: white; padding: 10px 6px;
-    text-align: center; font-weight: 600; white-space: nowrap;
+    text-align: center; font-weight: 600;
     position: sticky; top: 0;
   }
+  .full-table thead th.date { background: #0e3d5c; font-size: 0.85rem; }
   .full-table thead th.sub { background: #2e86c1; font-size: 0.72rem; }
   .full-table tbody td {
     padding: 8px 6px; border: 1px solid #e8e8e8;
     text-align: center; vertical-align: middle; line-height: 1.4;
+    word-break: keep-all;
   }
   .full-table tbody tr:nth-child(even) { background: #fafafe; }
   .full-table .period-cell {
@@ -186,6 +188,11 @@
   }
   .scroll-top.show { display: flex; }
 
+  @media (max-width: 600px) {
+    .table-card { display: none; }
+    .day-cards { display: block !important; }
+    .view-toggle { display: none; }
+  }
   @media (min-width: 768px) {
     .header { padding: 24px 32px 18px; }
     .header h1 { font-size: 1.5rem; }
@@ -287,28 +294,29 @@ function renderAll(table) {
 
 /* ─── Full Table ─── */
 function buildFullTable(rows) {
-  var dateRow = rows[2] || [];
-  var subRow = rows[3] || [];
+  // row 1 = dates, row 2 = sub-headers, row 3+ = data
+  var dateRow = rows[1] || [];
+  var subRow = rows[2] || [];
   var html = '<table class="full-table"><thead>';
 
-  // Header row 1
-  html += '<tr><th rowspan="2">구분</th><th rowspan="2">시간</th>';
+  // Header row 1: dates
+  html += '<tr><th class="date" rowspan="2">구분</th><th class="date" rowspan="2">시간</th>';
   for (var i = 3; i <= 9; i += 2) {
     var d = dateRow[i] || '';
-    if (d) html += '<th colspan="2">' + d + '</th>';
+    if (d) html += '<th class="date" colspan="2">' + d + '</th>';
   }
   html += '</tr>';
 
-  // Header row 2
+  // Header row 2: sub-headers (식사 & 집회, 기타 모임 & 활동)
   html += '<tr>';
   for (var i = 3; i <= 10; i++) {
     html += '<th class="sub">' + (subRow[i] || '') + '</th>';
   }
   html += '</tr></thead><tbody>';
 
-  // Data rows
-  var lastPeriod = '';
-  for (var r = 4; r <= 12; r++) {
+  // Data rows start at row 3
+  var lastRow = Math.min(rows.length - 1, 12);
+  for (var r = 3; r <= lastRow; r++) {
     var row = rows[r];
     if (!row) continue;
     var hasContent = false;
@@ -320,14 +328,15 @@ function buildFullTable(rows) {
     html += '<tr>';
     var period = row[1] || '';
     if (period) {
-      // Count rowspan
       var span = 1;
-      for (var nr = r + 1; nr <= 12; nr++) {
-        if (rows[nr] && !rows[nr][1]) span++;
-        else break;
+      for (var nr = r + 1; nr <= lastRow; nr++) {
+        if (rows[nr] && !rows[nr][1]) {
+          var nrHasContent = false;
+          for (var nc = 2; nc <= 10; nc++) { if (rows[nr][nc]) { nrHasContent = true; break; } }
+          if (nrHasContent) span++; else break;
+        } else break;
       }
       html += '<td class="period-cell" rowspan="' + span + '">' + period + '</td>';
-      lastPeriod = period;
     }
 
     html += '<td class="time-cell">' + (row[2] || '') + '</td>';
@@ -358,7 +367,7 @@ function tagClass(text) {
 }
 
 function buildDayCards(rows) {
-  var dateRow = rows[2] || [];
+  var dateRow = rows[1] || [];
   var days = [
     { dateIdx: 3, cols: [3, 4], cls: 'd1' },
     { dateIdx: 5, cols: [5, 6], cls: 'd2' },
@@ -367,6 +376,7 @@ function buildDayCards(rows) {
   ];
 
   var html = '';
+  var lastRow = Math.min(rows.length - 1, 12);
   days.forEach(function(day) {
     var dateLabel = dateRow[day.dateIdx] || '';
     if (!dateLabel) return;
@@ -376,7 +386,7 @@ function buildDayCards(rows) {
     html += '<div class="day-card-body">';
 
     var currentPeriod = '';
-    for (var r = 4; r <= 12; r++) {
+    for (var r = 3; r <= lastRow; r++) {
       var row = rows[r];
       if (!row) continue;
       if (row[1]) currentPeriod = row[1];
