@@ -298,25 +298,31 @@ function renderAll(table) {
   initView();
 }
 
-/* ─── Full Table ─── */
+/* ─── Full Table (merged columns per day) ─── */
+function cellClass(text) {
+  if (text.indexOf('식사') >= 0) return 'meal-cell';
+  if (text.indexOf('집회') >= 0) return 'worship-cell';
+  if (text.indexOf('물놀이') >= 0 || text.indexOf('캠프파이어') >= 0 || text.indexOf('콘서트') >= 0) return 'activity-cell';
+  return '';
+}
+
+function mergeCell(a, b) {
+  var parts = [];
+  if (a && a !== '-') parts.push(a);
+  if (b && b !== '-') parts.push(b);
+  return parts.join('<br>');
+}
+
 function buildFullTable(rows) {
-  // row 1 = dates, row 2 = sub-headers, row 3+ = data
   var dateRow = rows[1] || [];
-  var subRow = rows[2] || [];
   var html = '<table class="full-table"><thead>';
 
-  // Header row 1: dates
-  html += '<tr><th class="date" rowspan="2">구분</th><th class="date" rowspan="2">시간</th>';
-  for (var i = 3; i <= 9; i += 2) {
-    var d = dateRow[i] || '';
-    if (d) html += '<th class="date" colspan="2">' + d + '</th>';
-  }
-  html += '</tr>';
-
-  // Header row 2: sub-headers (식사 & 집회, 기타 모임 & 활동)
-  html += '<tr>';
-  for (var i = 3; i <= 10; i++) {
-    html += '<th class="sub">' + (subRow[i] || '') + '</th>';
+  // Single header row with dates
+  html += '<tr><th class="date">구분</th><th class="date">시간</th>';
+  var dayCols = [[3,4],[5,6],[7,8],[9,10]];
+  for (var d = 0; d < dayCols.length; d++) {
+    var label = dateRow[dayCols[d][0]] || '';
+    if (label) html += '<th class="date">' + label + '</th>';
   }
   html += '</tr></thead><tbody>';
 
@@ -326,9 +332,7 @@ function buildFullTable(rows) {
     var row = rows[r];
     if (!row) continue;
     var hasContent = false;
-    for (var c = 1; c <= 10; c++) {
-      if (row[c]) { hasContent = true; break; }
-    }
+    for (var c = 1; c <= 10; c++) { if (row[c]) { hasContent = true; break; } }
     if (!hasContent) continue;
 
     html += '<tr>';
@@ -337,9 +341,9 @@ function buildFullTable(rows) {
       var span = 1;
       for (var nr = r + 1; nr <= lastRow; nr++) {
         if (rows[nr] && !rows[nr][1]) {
-          var nrHasContent = false;
-          for (var nc = 2; nc <= 10; nc++) { if (rows[nr][nc]) { nrHasContent = true; break; } }
-          if (nrHasContent) span++; else break;
+          var nrOk = false;
+          for (var nc = 2; nc <= 10; nc++) { if (rows[nr][nc]) { nrOk = true; break; } }
+          if (nrOk) span++; else break;
         } else break;
       }
       html += '<td class="period-cell" rowspan="' + span + '">' + period + '</td>';
@@ -347,13 +351,12 @@ function buildFullTable(rows) {
 
     html += '<td class="time-cell">' + (row[2] || '') + '</td>';
 
-    for (var c = 3; c <= 10; c++) {
-      var val = (row[c] || '').replace(/\n/g, '<br>');
-      var cls = '';
-      if (val.indexOf('식사') >= 0) cls = 'meal-cell';
-      else if (val.indexOf('집회') >= 0) cls = 'worship-cell';
-      else if (val.indexOf('물놀이') >= 0 || val.indexOf('캠프파이어') >= 0 || val.indexOf('콘서트') >= 0) cls = 'activity-cell';
-      html += '<td class="' + cls + '">' + val + '</td>';
+    for (var d = 0; d < dayCols.length; d++) {
+      var colA = row[dayCols[d][0]] || '';
+      var colB = row[dayCols[d][1]] || '';
+      var merged = mergeCell(colA, colB);
+      var cls = cellClass(colA) || cellClass(colB);
+      html += '<td class="' + cls + '">' + merged.replace(/\n/g, '<br>') + '</td>';
     }
     html += '</tr>';
   }
