@@ -188,10 +188,14 @@
   }
   .scroll-top.show { display: flex; }
 
+  .scroll-hint {
+    display: none; text-align: center; font-size: 0.7rem; color: #999;
+    padding: 4px 0;
+  }
   @media (max-width: 600px) {
     .table-card { display: none; }
-    .day-cards { display: block !important; }
-    .view-toggle { display: none; }
+    .day-cards { display: block; }
+    .scroll-hint.show { display: block; }
   }
   @media (min-width: 768px) {
     .header { padding: 24px 32px 18px; }
@@ -226,6 +230,7 @@
       <button class="view-btn" data-view="cards" onclick="setView('cards')">날짜별 카드</button>
     </div>
 
+    <div id="scrollHint" class="scroll-hint">&#8592; 좌우로 스크롤하세요 &#8594;</div>
     <div id="tableView" class="table-card"></div>
     <div id="cardsView" class="day-cards"></div>
 
@@ -290,6 +295,7 @@ function renderAll(table) {
   document.getElementById('content').style.display = 'block';
   document.getElementById('lastUpdated').textContent =
     '실시간 업데이트 | ' + new Date().toLocaleString('ko-KR');
+  initView();
 }
 
 /* ─── Full Table ─── */
@@ -463,8 +469,16 @@ function buildSummary(rows) {
 function setView(view) {
   document.querySelectorAll('.view-btn').forEach(function(b) { b.classList.remove('active'); });
   document.querySelector('.view-btn[data-view="' + view + '"]').classList.add('active');
-  document.getElementById('tableView').style.display = view === 'table' ? '' : 'none';
+  var isMobile = window.innerWidth <= 600;
+  document.getElementById('tableView').style.display = view === 'table' ? 'block' : 'none';
   document.getElementById('cardsView').style.display = view === 'cards' ? 'block' : 'none';
+  document.getElementById('scrollHint').classList.toggle('show', view === 'table' && isMobile);
+}
+
+/* ─── Default to cards on mobile ─── */
+function initView() {
+  var isMobile = window.innerWidth <= 600;
+  setView(isMobile ? 'cards' : 'table');
 }
 
 /* ─── Scroll Top ─── */
