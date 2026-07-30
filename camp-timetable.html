@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>2026 속리산 여름집회 - 교회학교 캠프 시간표</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+    background: #f0f2f5; color: #333;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .header {
+    background: linear-gradient(135deg, #1a5276, #2e86c1);
+    color: white; padding: 20px 16px 14px; text-align: center;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header h1 { font-size: 1.2rem; margin-bottom: 2px; }
+  .header p { font-size: 0.75rem; opacity: 0.8; }
+  .nav-links { margin-top: 6px; }
+  .nav-link {
+    display: inline-block; padding: 4px 12px;
+    background: rgba(255,255,255,0.2); border-radius: 12px;
+    color: white; text-decoration: none; font-size: 0.72rem; margin: 0 2px;
+  }
+  .nav-link:hover { background: rgba(255,255,255,0.3); }
+
+  .location-bar {
+    background: white; padding: 10px 16px; text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    font-size: 0.82rem; color: #1a5276; font-weight: 600;
+  }
+
+  .last-updated {
+    text-align: center; font-size: 0.7rem; color: #aaa;
+    padding: 6px 0 2px;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 8px 80px; }
+
+  /* Day tabs */
+  .day-tabs {
+    display: flex; gap: 6px; padding: 10px 4px 8px;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    justify-content: center;
+  }
+  .day-tab {
+    padding: 8px 16px; border: 1.5px solid #ccc; border-radius: 20px;
+    background: white; font-size: 0.82rem; white-space: nowrap;
+    cursor: pointer; color: #555; font-weight: 500; transition: all 0.15s;
+  }
+  .day-tab.active { background: #1a5276; color: white; border-color: #1a5276; }
+  .day-tab:active { transform: scale(0.95); }
+
+  /* Full table */
+  .table-card {
+    background: white; border-radius: 12px; margin: 8px 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow-x: auto;
+  }
+  .full-table {
+    width: 100%; border-collapse: collapse; font-size: 0.78rem;
+    min-width: 750px;
+  }
+  .full-table thead th {
+    background: #1a5276; color: white; padding: 10px 6px;
+    text-align: center; font-weight: 600; white-space: nowrap;
+    position: sticky; top: 0;
+  }
+  .full-table thead th.sub { background: #2e86c1; font-size: 0.72rem; }
+  .full-table tbody td {
+    padding: 8px 6px; border: 1px solid #e8e8e8;
+    text-align: center; vertical-align: middle; line-height: 1.4;
+  }
+  .full-table tbody tr:nth-child(even) { background: #fafafe; }
+  .full-table .period-cell {
+    background: #eaf2f8; font-weight: 700; color: #1a5276;
+    width: 32px; font-size: 0.82rem;
+  }
+  .full-table .time-cell {
+    white-space: nowrap; color: #666; font-size: 0.75rem;
+  }
+  .full-table .meal-cell { background: #fff8e1; }
+  .full-table .worship-cell { background: #e8eaf6; }
+  .full-table .activity-cell { background: #fce4ec; }
+
+  /* Day cards (mobile-friendly) */
+  .day-cards { display: none; }
+  .day-card-single {
+    background: white; border-radius: 12px; margin: 8px 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden;
+  }
+  .day-card-header {
+    padding: 12px 16px; color: white; font-weight: 700;
+    font-size: 1rem; text-align: center;
+  }
+  .day-card-header.d1 { background: #1a5276; }
+  .day-card-header.d2 { background: #2e86c1; }
+  .day-card-header.d3 { background: #27ae60; }
+  .day-card-header.d4 { background: #e74c3c; }
+
+  .day-card-body { padding: 8px 12px 12px; }
+
+  .time-block {
+    display: flex; gap: 8px; padding: 7px 0;
+    border-bottom: 1px solid #f0f0f0; align-items: flex-start;
+  }
+  .time-block:last-child { border-bottom: none; }
+
+  .p-label {
+    font-size: 0.65rem; font-weight: 700; color: white;
+    border-radius: 6px; padding: 2px 6px; white-space: nowrap;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .p-label.morning { background: #f39c12; }
+  .p-label.afternoon { background: #2e86c1; }
+  .p-label.evening { background: #1a5276; }
+
+  .t-range {
+    font-size: 0.72rem; color: #888; min-width: 82px;
+    flex-shrink: 0; line-height: 1.5;
+  }
+
+  .e-content { flex: 1; font-size: 0.82rem; line-height: 1.5; }
+
+  .e-tag {
+    display: inline-block; border-radius: 6px; padding: 2px 8px;
+    font-size: 0.75rem; margin: 1px 2px; white-space: nowrap;
+  }
+  .tag-meal { background: #fff3e0; color: #e65100; }
+  .tag-worship { background: #e8eaf6; color: #283593; }
+  .tag-meeting { background: #e0f2f1; color: #00695c; }
+  .tag-activity { background: #fce4ec; color: #c62828; }
+  .tag-exercise { background: #f3e5f5; color: #6a1b9a; }
+  .tag-etc { background: #f5f5f5; color: #555; }
+
+  /* Summary */
+  .summary-card {
+    background: white; border-radius: 12px; margin: 8px 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); padding: 14px;
+  }
+  .summary-card h3 {
+    font-size: 0.9rem; color: #1a5276; margin-bottom: 8px;
+    border-bottom: 2px solid #2e86c1; padding-bottom: 6px;
+  }
+  .summary-table {
+    width: 100%; border-collapse: collapse; font-size: 0.8rem;
+  }
+  .summary-table th {
+    background: #f5f5f5; padding: 6px 10px; text-align: left; font-weight: 600;
+  }
+  .summary-table td {
+    padding: 6px 10px; border-bottom: 1px solid #f0f0f0;
+  }
+
+  /* View toggle */
+  .view-toggle {
+    display: flex; justify-content: center; gap: 8px; padding: 4px 0 8px;
+  }
+  .view-btn {
+    padding: 6px 14px; border: 1.5px solid #ccc; border-radius: 16px;
+    background: white; font-size: 0.75rem; cursor: pointer; color: #555;
+  }
+  .view-btn.active { background: #1a5276; color: white; border-color: #1a5276; }
+
+  .loading { text-align: center; padding: 60px 20px; color: #aaa; }
+  .error-msg {
+    text-align: center; padding: 30px; color: #c0392b;
+    background: #fdedec; border-radius: 12px; margin: 12px 0;
+  }
+  .error-msg button {
+    margin-top: 8px; padding: 8px 20px; border: none; border-radius: 8px;
+    background: #1a5276; color: white; font-weight: 600; cursor: pointer;
+  }
+
+  .scroll-top {
+    position: fixed; bottom: 24px; right: 16px;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: #1a5276; color: white; border: none;
+    font-size: 1.4rem; cursor: pointer;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+    display: none; z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .scroll-top.show { display: flex; }
+
+  @media (min-width: 768px) {
+    .header { padding: 24px 32px 18px; }
+    .header h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>2026 속리산 전국 여름집회</h1>
+  <p>교회학교 캠프 시간표</p>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">객실 배정</a>
+    <a class="nav-link" href="schedule.html">순편성표</a>
+    <a class="nav-link" href="members.html">신청자 명단</a>
+    <a class="nav-link" href="travel.html">여행 코스</a>
+    <a class="nav-link" href="students.html">교회학교</a>
+  </div>
+</div>
+
+<div class="location-bar" id="locationBar">불러오는 중...</div>
+<div class="last-updated" id="lastUpdated"></div>
+
+<div class="container">
+  <div id="loading" class="loading">데이터를 불러오는 중...</div>
+  <div id="error" style="display:none;"></div>
+
+  <div id="content" style="display:none;">
+    <div class="view-toggle">
+      <button class="view-btn active" data-view="table" onclick="setView('table')">전체 표</button>
+      <button class="view-btn" data-view="cards" onclick="setView('cards')">날짜별 카드</button>
+    </div>
+
+    <div id="tableView" class="table-card"></div>
+    <div id="cardsView" class="day-cards"></div>
+
+    <div class="summary-card">
+      <h3>시간 요약</h3>
+      <table class="summary-table" id="summaryTable"></table>
+    </div>
+  </div>
+</div>
+
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
+<script>
+const SHEET_ID = '1mDEt-r4LuUAwne1qitEq6cw4ZbRdGO53es30wB-vrMU';
+const GVIZ_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json';
+
+function cellVal(cell) {
+  if (!cell || cell.v === null || cell.v === undefined) return '';
+  return String(cell.v).trim();
+}
+
+function fetchData() {
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('error').style.display = 'none';
+  document.getElementById('content').style.display = 'none';
+
+  fetch(GVIZ_URL)
+    .then(function(res) { return res.text(); })
+    .then(function(text) {
+      var jsonStr = text.replace(/^[^(]*\(/, '').replace(/\);?\s*$/, '');
+      var data = JSON.parse(jsonStr);
+      renderAll(data.table);
+    })
+    .catch(function(err) {
+      console.error(err);
+      document.getElementById('loading').style.display = 'none';
+      var el = document.getElementById('error');
+      el.style.display = 'block';
+      el.innerHTML = '<div class="error-msg"><p>데이터를 불러오지 못했습니다.</p><button onclick="fetchData()">다시 시도</button></div>';
+    });
+}
+
+function renderAll(table) {
+  var rows = table.rows.map(function(r) {
+    return r.c.map(cellVal);
+  });
+
+  // Location (row 0)
+  var loc = '';
+  if (rows[0]) {
+    for (var i = 0; i < rows[0].length; i++) {
+      if (rows[0][i].length > 3) { loc = rows[0][i]; break; }
+    }
+  }
+  document.getElementById('locationBar').textContent = loc || '교회학교 캠프';
+
+  buildFullTable(rows);
+  buildDayCards(rows);
+  buildSummary(rows);
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+  document.getElementById('lastUpdated').textContent =
+    '실시간 업데이트 | ' + new Date().toLocaleString('ko-KR');
+}
+
+/* ─── Full Table ─── */
+function buildFullTable(rows) {
+  var dateRow = rows[2] || [];
+  var subRow = rows[3] || [];
+  var html = '<table class="full-table"><thead>';
+
+  // Header row 1
+  html += '<tr><th rowspan="2">구분</th><th rowspan="2">시간</th>';
+  for (var i = 3; i <= 9; i += 2) {
+    var d = dateRow[i] || '';
+    if (d) html += '<th colspan="2">' + d + '</th>';
+  }
+  html += '</tr>';
+
+  // Header row 2
+  html += '<tr>';
+  for (var i = 3; i <= 10; i++) {
+    html += '<th class="sub">' + (subRow[i] || '') + '</th>';
+  }
+  html += '</tr></thead><tbody>';
+
+  // Data rows
+  var lastPeriod = '';
+  for (var r = 4; r <= 12; r++) {
+    var row = rows[r];
+    if (!row) continue;
+    var hasContent = false;
+    for (var c = 1; c <= 10; c++) {
+      if (row[c]) { hasContent = true; break; }
+    }
+    if (!hasContent) continue;
+
+    html += '<tr>';
+    var period = row[1] || '';
+    if (period) {
+      // Count rowspan
+      var span = 1;
+      for (var nr = r + 1; nr <= 12; nr++) {
+        if (rows[nr] && !rows[nr][1]) span++;
+        else break;
+      }
+      html += '<td class="period-cell" rowspan="' + span + '">' + period + '</td>';
+      lastPeriod = period;
+    }
+
+    html += '<td class="time-cell">' + (row[2] || '') + '</td>';
+
+    for (var c = 3; c <= 10; c++) {
+      var val = (row[c] || '').replace(/\n/g, '<br>');
+      var cls = '';
+      if (val.indexOf('식사') >= 0) cls = 'meal-cell';
+      else if (val.indexOf('집회') >= 0) cls = 'worship-cell';
+      else if (val.indexOf('물놀이') >= 0 || val.indexOf('캠프파이어') >= 0 || val.indexOf('콘서트') >= 0) cls = 'activity-cell';
+      html += '<td class="' + cls + '">' + val + '</td>';
+    }
+    html += '</tr>';
+  }
+
+  html += '</tbody></table>';
+  document.getElementById('tableView').innerHTML = html;
+}
+
+/* ─── Day Cards ─── */
+function tagClass(text) {
+  if (text.indexOf('식사') >= 0) return 'tag-meal';
+  if (text.indexOf('집회') >= 0) return 'tag-worship';
+  if (text.indexOf('모임') >= 0) return 'tag-meeting';
+  if (text.indexOf('물놀이') >= 0 || text.indexOf('캠프파이어') >= 0 || text.indexOf('콘서트') >= 0) return 'tag-activity';
+  if (text.indexOf('체조') >= 0) return 'tag-exercise';
+  return 'tag-etc';
+}
+
+function buildDayCards(rows) {
+  var dateRow = rows[2] || [];
+  var days = [
+    { dateIdx: 3, cols: [3, 4], cls: 'd1' },
+    { dateIdx: 5, cols: [5, 6], cls: 'd2' },
+    { dateIdx: 7, cols: [7, 8], cls: 'd3' },
+    { dateIdx: 9, cols: [9, 10], cls: 'd4' }
+  ];
+
+  var html = '';
+  days.forEach(function(day) {
+    var dateLabel = dateRow[day.dateIdx] || '';
+    if (!dateLabel) return;
+
+    html += '<div class="day-card-single">';
+    html += '<div class="day-card-header ' + day.cls + '">' + dateLabel + '</div>';
+    html += '<div class="day-card-body">';
+
+    var currentPeriod = '';
+    for (var r = 4; r <= 12; r++) {
+      var row = rows[r];
+      if (!row) continue;
+      if (row[1]) currentPeriod = row[1];
+      var time = row[2] || '';
+      var meal = row[day.cols[0]] || '';
+      var activity = row[day.cols[1]] || '';
+      if (!meal && !activity) continue;
+
+      html += '<div class="time-block">';
+      if (row[1]) {
+        var pCls = row[1] === '오전' ? 'morning' : row[1] === '오후' ? 'afternoon' : 'evening';
+        html += '<span class="p-label ' + pCls + '">' + row[1] + '</span>';
+      } else {
+        html += '<span style="width:32px;flex-shrink:0"></span>';
+      }
+      html += '<span class="t-range">' + time + '</span>';
+      html += '<span class="e-content">';
+      [meal, activity].forEach(function(txt) {
+        if (txt && txt !== '-') {
+          html += '<span class="e-tag ' + tagClass(txt) + '">' + txt.replace(/\n/g, ' ') + '</span>';
+        }
+      });
+      html += '</span></div>';
+    }
+
+    html += '</div></div>';
+  });
+
+  document.getElementById('cardsView').innerHTML = html;
+}
+
+/* ─── Summary ─── */
+function buildSummary(rows) {
+  // Extract from rows 17~20 (the summary section at bottom of sheet)
+  var summaryData = [];
+  for (var r = 14; r < rows.length; r++) {
+    var row = rows[r];
+    if (!row) continue;
+    // Look for rows with time info
+    var label = '', time = '';
+    for (var c = 0; c < row.length; c++) {
+      var v = row[c];
+      if (!v) continue;
+      if (v.indexOf('시') >= 0 || v.indexOf('분') >= 0) {
+        time = v;
+      } else if (v.length >= 2 && v.indexOf('시') < 0) {
+        label = v;
+      }
+    }
+    if (label && time) summaryData.push({ label: label, time: time });
+  }
+
+  // Fallback hardcoded if parsing fails
+  if (summaryData.length === 0) {
+    summaryData = [
+      { label: '아침 체조', time: '오전 9시 ~ 9시30분' },
+      { label: '아침 식사', time: '오전 7시반 ~ 9시' },
+      { label: '아침 모임', time: '오전 9시30분 ~ 10시30분' },
+      { label: '점심 식사', time: '오후 12시 ~ 1시반' },
+      { label: '오후 모임', time: '오후 2시 ~ 3시' },
+      { label: '저녁 식사', time: '오후 5시반 ~ 7시' },
+      { label: '저녁 모임', time: '오후 6시반 ~ 7시반' }
+    ];
+  }
+
+  var html = '<tr><th>구분</th><th>시간</th><th>비고</th></tr>';
+  summaryData.forEach(function(s) {
+    html += '<tr><td>' + s.label + '</td><td>' + s.time + '</td><td>' + (s.note || '') + '</td></tr>';
+  });
+  document.getElementById('summaryTable').innerHTML = html;
+}
+
+/* ─── View Toggle ─── */
+function setView(view) {
+  document.querySelectorAll('.view-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelector('.view-btn[data-view="' + view + '"]').classList.add('active');
+  document.getElementById('tableView').style.display = view === 'table' ? '' : 'none';
+  document.getElementById('cardsView').style.display = view === 'cards' ? 'block' : 'none';
+}
+
+/* ─── Scroll Top ─── */
+window.addEventListener('scroll', function() {
+  document.getElementById('scrollTopBtn').classList.toggle('show', window.scrollY > 400);
+});
+
+/* ─── Init ─── */
+fetchData();
+</script>
+</body>
+</html>
