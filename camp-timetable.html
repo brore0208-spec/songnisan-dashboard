@@ -298,19 +298,12 @@ function renderAll(table) {
   initView();
 }
 
-/* ─── Full Table (merged columns per day) ─── */
+/* ─── Full Table (1 column per day) ─── */
 function cellClass(text) {
   if (text.indexOf('식사') >= 0) return 'meal-cell';
   if (text.indexOf('집회') >= 0) return 'worship-cell';
   if (text.indexOf('물놀이') >= 0 || text.indexOf('캠프파이어') >= 0 || text.indexOf('콘서트') >= 0) return 'activity-cell';
   return '';
-}
-
-function mergeCell(a, b) {
-  var parts = [];
-  if (a && a !== '-') parts.push(a);
-  if (b && b !== '-') parts.push(b);
-  return parts.join('<br>');
 }
 
 function buildFullTable(rows) {
@@ -319,9 +312,9 @@ function buildFullTable(rows) {
 
   // Single header row with dates
   html += '<tr><th class="date">구분</th><th class="date">시간</th>';
-  var dayCols = [[3,4],[5,6],[7,8],[9,10]];
+  var dayCols = [3, 4, 5, 6];
   for (var d = 0; d < dayCols.length; d++) {
-    var label = dateRow[dayCols[d][0]] || '';
+    var label = dateRow[dayCols[d]] || '';
     if (label) html += '<th class="date">' + label + '</th>';
   }
   html += '</tr></thead><tbody>';
@@ -332,7 +325,7 @@ function buildFullTable(rows) {
     var row = rows[r];
     if (!row) continue;
     var hasContent = false;
-    for (var c = 1; c <= 10; c++) { if (row[c]) { hasContent = true; break; } }
+    for (var c = 1; c <= 6; c++) { if (row[c]) { hasContent = true; break; } }
     if (!hasContent) continue;
 
     html += '<tr>';
@@ -342,7 +335,7 @@ function buildFullTable(rows) {
       for (var nr = r + 1; nr <= lastRow; nr++) {
         if (rows[nr] && !rows[nr][1]) {
           var nrOk = false;
-          for (var nc = 2; nc <= 10; nc++) { if (rows[nr][nc]) { nrOk = true; break; } }
+          for (var nc = 2; nc <= 6; nc++) { if (rows[nr][nc]) { nrOk = true; break; } }
           if (nrOk) span++; else break;
         } else break;
       }
@@ -352,11 +345,9 @@ function buildFullTable(rows) {
     html += '<td class="time-cell">' + (row[2] || '') + '</td>';
 
     for (var d = 0; d < dayCols.length; d++) {
-      var colA = row[dayCols[d][0]] || '';
-      var colB = row[dayCols[d][1]] || '';
-      var merged = mergeCell(colA, colB);
-      var cls = cellClass(colA) || cellClass(colB);
-      html += '<td class="' + cls + '">' + merged.replace(/\n/g, '<br>') + '</td>';
+      var val = row[dayCols[d]] || '';
+      var cls = cellClass(val);
+      html += '<td class="' + cls + '">' + val.replace(/\n/g, '<br>') + '</td>';
     }
     html += '</tr>';
   }
@@ -378,10 +369,10 @@ function tagClass(text) {
 function buildDayCards(rows) {
   var dateRow = rows[1] || [];
   var days = [
-    { dateIdx: 3, cols: [3, 4], cls: 'd1' },
-    { dateIdx: 5, cols: [5, 6], cls: 'd2' },
-    { dateIdx: 7, cols: [7, 8], cls: 'd3' },
-    { dateIdx: 9, cols: [9, 10], cls: 'd4' }
+    { dateIdx: 3, col: 3, cls: 'd1' },
+    { dateIdx: 4, col: 4, cls: 'd2' },
+    { dateIdx: 5, col: 5, cls: 'd3' },
+    { dateIdx: 6, col: 6, cls: 'd4' }
   ];
 
   var html = '';
@@ -400,9 +391,8 @@ function buildDayCards(rows) {
       if (!row) continue;
       if (row[1]) currentPeriod = row[1];
       var time = row[2] || '';
-      var meal = row[day.cols[0]] || '';
-      var activity = row[day.cols[1]] || '';
-      if (!meal && !activity) continue;
+      var content = row[day.col] || '';
+      if (!content) continue;
 
       html += '<div class="time-block">';
       if (row[1]) {
@@ -413,11 +403,7 @@ function buildDayCards(rows) {
       }
       html += '<span class="t-range">' + time + '</span>';
       html += '<span class="e-content">';
-      [meal, activity].forEach(function(txt) {
-        if (txt && txt !== '-') {
-          html += '<span class="e-tag ' + tagClass(txt) + '">' + txt.replace(/\n/g, ' ') + '</span>';
-        }
-      });
+      html += '<span class="e-tag ' + tagClass(content) + '">' + content.replace(/\n/g, ' ') + '</span>';
       html += '</span></div>';
     }
 
