@@ -103,7 +103,7 @@
   .day-card-header.d3 { background: #27ae60; }
   .day-card-header.d4 { background: #e74c3c; }
 
-  .day-card-body { padding: 8px 12px 12px; }
+  .day-card-body { padding: 8px 12px 12px; overflow: hidden; }
 
   .time-block {
     display: flex; gap: 8px; padding: 7px 0;
@@ -122,8 +122,8 @@
   .p-label.evening { background: #1a5276; }
 
   .t-range {
-    font-size: 0.72rem; color: #888; min-width: 70px;
-    flex-shrink: 0; line-height: 1.5;
+    font-size: 0.72rem; color: #888;
+    line-height: 1.5;
   }
 
   .e-content { flex: 1; font-size: 0.82rem; line-height: 1.5; min-width: 0; overflow-wrap: break-word; }
@@ -196,6 +196,8 @@
   }
   @media (max-width: 600px) {
     .day-cards { display: block; }
+    .time-block { gap: 4px; }
+    .t-range { font-size: 0.65rem; }
     .scroll-hint.show { display: block; }
     .full-table { font-size: 0.62rem; }
     .full-table thead th { padding: 6px 3px; font-size: 0.65rem; }
